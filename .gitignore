@@ -1,0 +1,5 @@
+# WebStorm IDE
+.idea/*
+
+# Ignore code pulled from node_modules
+/node_modules/

@@ -1,0 +1,16 @@
+{
+  "title": "Dinosauria Twitter Bot",
+  "name": "dinosauria-bot",
+  "version": "0.0.1",
+  "description": "Twitter bot to tweet #DinosaurOfTheDay.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "John Chase",
+  "license": "MIT,",
+  "dependencies": {
+    "twit": "^2.2.11"
+  }
+}

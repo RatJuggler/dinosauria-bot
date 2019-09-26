@@ -7,9 +7,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RatJuggler/dinosauria-bot.git"
+  },
   "keywords": [],
   "author": "John Chase",
   "license": "MIT,",
+  "bugs": {
+    "url": "https://github.com/RatJuggler/dinosauria-bot/issues"
+  },
   "dependencies": {
     "twit": "^2.2.11"
   }

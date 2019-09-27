@@ -12,7 +12,24 @@ function validWikiPage(wikiPage) {
     return true;
 }
 
-function getWikiPage(wikiURL) {
+function getWikiPagePromise(options) {
+    return new Promise((resolve, reject) => {
+        https.request(options, (response) => {
+            let page = '';
+            response.on('data', (chunk) => {
+                page += chunk;
+            });
+            response.on('end', () => {
+                resolve(page);
+            });
+            response.on('error', (error) => {
+                reject(error);
+            });
+        }).end();
+    });
+}
+
+async function getWikiPage(wikiURL) {
     winston.debug("Getting Wiki Page: " + wikiURL);
     let options = {
         method: 'GET',
@@ -20,17 +37,13 @@ function getWikiPage(wikiURL) {
         port: url.parse(wikiURL).port,
         path: url.parse(wikiURL).path
     };
-    https.request(options, (response) => {
-        let page = '';
-        response.on('data', (chunk) => {
-            page += chunk;
-        });
-        response.on('end', () => {
-            winston.debug("GET returned: " + page);
-        })
-    }).on('error', (error) => {
+    try {
+        let page_request = getWikiPagePromise(options);
+        let response = await page_request;
+        winston.debug("GET returned: " + response);
+    } catch(error) {
         winston.error(error.message);
-    }).end();
+    }
 }
 
 function getRandomName() {

@@ -6,3 +6,6 @@ const config = require('./config.js');
 
 // Instantiate the API object.
 const T = new Twit(config);
+
+// Pull in the list of dinosaurs.
+const dinosaurs = require('dinosaurs');

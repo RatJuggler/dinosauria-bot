@@ -14,3 +14,4 @@ const winston = require('./winston.js');
 const dinosaurs = require('dinosaurs');
 
 winston.info("Booting dinosaria bot...");
+

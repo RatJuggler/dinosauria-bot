@@ -3,7 +3,7 @@
   "name": "dinosauria-bot",
   "version": "0.0.1",
   "description": "Twitter bot to tweet #DinosaurOfTheDay.",
-  "main": "index.js",
+  "main": "app/index.js",
   "scripts": {
     "pack": "npm pack",
     "test": "echo \"Error: no test specified\" && exit 1"

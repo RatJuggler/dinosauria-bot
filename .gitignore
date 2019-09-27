@@ -5,7 +5,7 @@
 /node_modules/
 
 # Ignore environment secrets
-/config.json
+/app/config.json
 
 # Ignore distribution tarballs
 /dinosauria-bot-*.tgz

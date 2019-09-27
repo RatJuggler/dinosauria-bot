@@ -4,7 +4,7 @@ const nconf = require('nconf');
 
 nconf.env()
     .argv()
-    .file({ file: './config.json' });
+    .file({ file: 'app/config.json' });
 
 module.exports = {
     consumer_key: nconf.get("TWITTER_CONSUMER_KEY"),

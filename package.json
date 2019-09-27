@@ -5,6 +5,7 @@
   "description": "Twitter bot to tweet #DinosaurOfTheDay.",
   "main": "index.js",
   "scripts": {
+    "pack": "npm pack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,5 +23,11 @@
     "nconf": "^0.10.0",
     "twit": "^2.2.11",
     "winston": "^3.2.1"
-  }
+  },
+  "bundledDependencies": [
+    "dinosaurs",
+    "nconf",
+    "twit",
+    "winston"
+  ]
 }

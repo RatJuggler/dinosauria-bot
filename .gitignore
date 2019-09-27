@@ -6,3 +6,6 @@
 
 # Ignore environment secrets
 /config.json
+
+# Ignore distribution tarballs
+/dinosauria-bot-*.tgz

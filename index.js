@@ -7,5 +7,10 @@ const config = require('./config.js');
 // Instantiate the API object.
 const T = new Twit(config);
 
+// Pull in logger.
+const winston = require('./winston.js');
+
 // Pull in the list of dinosaurs.
 const dinosaurs = require('dinosaurs');
+
+winston.info("Booting dinosaria bot...");

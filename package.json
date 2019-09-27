@@ -20,6 +20,7 @@
   "dependencies": {
     "dinosaurs": "^1.2.1",
     "nconf": "^0.10.0",
-    "twit": "^2.2.11"
+    "twit": "^2.2.11",
+    "winston": "^3.2.1"
   }
 }

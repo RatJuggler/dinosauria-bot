@@ -11,6 +11,8 @@ const T = new Twit(config);
 winston.info("Booting dinosauria bot...");
 
 // Pull in the dinosaur lookup.
-const dinosaur = require('./dinosaur.js');
+const dinoService = require('./dinosaur.js');
+
+dinosaur = dinoService.getDinosaur();
 
 winston.info("Chosen dinosaur: " + dinosaur.name);

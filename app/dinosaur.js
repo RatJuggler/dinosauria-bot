@@ -8,17 +8,29 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-async function validURL(urlToValidate) {
-    winston.debug("Validating URL: " + urlToValidate);
+function validWikiPage(wikiPage) {
+    return true;
+}
+
+function getWikiPage(wikiURL) {
+    winston.debug("Getting Wiki Page: " + wikiURL);
     let options = {
-        method: 'HEAD',
-        host: url.parse(urlToValidate).host,
-        port: url.parse(urlToValidate).port,
-        path: url.parse(urlToValidate).path
+        method: 'GET',
+        host: url.parse(wikiURL).host,
+        port: url.parse(wikiURL).port,
+        path: url.parse(wikiURL).path
     };
-    let isValid = await new Promise(resolve => {
-        https.request(options, result => resolve(result.statusCode === 200)).end();
-    })
+    https.request(options, (response) => {
+        let page = '';
+        response.on('data', (chunk) => {
+            page += chunk;
+        });
+        response.on('end', () => {
+            winston.debug("GET returned: " + page);
+        })
+    }).on('error', (error) => {
+        winston.error(error.message);
+    }).end();
 }
 
 function getRandomName() {
@@ -30,12 +42,13 @@ function getRandomName() {
 }
 
 function getDinosaur() {
-    let dinoName, wikiURL;
+    let dinoName, wikiURL, wikiPage;
     do {
         dinoName = getRandomName();
         wikiURL = "https://en.wikipedia.org/wiki/" + dinoName;
-    } while (!validURL(wikiURL));
-    return {"name": dinoName, "wikiURL": wikiURL}
+        wikiPage = getWikiPage(wikiURL);
+    } while (!validWikiPage(wikiPage));
+    return {"name": dinoName, "wikiURL": wikiURL, "wikiPage": wikiPage}
 }
 
-module.exports = getDinosaur();
+module.exports.getDinosaur = getDinosaur;

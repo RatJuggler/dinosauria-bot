@@ -3,3 +3,6 @@
 
 # Ignore code pulled from node_modules
 /node_modules/
+
+# Ignore environment secrets
+/config.json

@@ -2,7 +2,10 @@ const winston = require("winston");
 
 const logFormat = winston.format.combine(
     winston.format.timestamp(),
-    winston.format.json()
+    winston.format.padLevels(),
+    winston.format.printf(details => {
+        return `${details.timestamp} ${details.level}: ${details.message}`;
+    })
 );
 
 // Instantiate and export a logger.

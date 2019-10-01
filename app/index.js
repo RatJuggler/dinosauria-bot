@@ -1,14 +1,13 @@
 const winston = require('./winston.js');
+const dinoService = require('./dinosaur.js');
+const tweetService = require('./tweet.js');
 
 winston.info("Booting dinosauria bot...");
 
-// Pull in the dinosaur details lookup.
-const dinoService = require('./dinosaur.js');
-
 let dinosaur = dinoService.getDinosaur();
+let tweet = dinosaur.name + ": " + dinosaur.wikiURL + "\n#DinosaurOfTheDay";
+winston.debug("Tweet:\n" + tweet);
 
-const tweetService = require('./tweet');
-
-tweetService.tweet(dinosaur);
+tweetService.tweet(tweet);
 
 winston.info("Shutting down dionsauria bot.");

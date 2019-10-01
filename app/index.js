@@ -5,6 +5,10 @@ winston.info("Booting dinosauria bot...");
 // Pull in the dinosaur details lookup.
 const dinoService = require('./dinosaur.js');
 
-dinoService.getDinosaur();
+let dinosaur = dinoService.getDinosaur();
+
+const tweetService = require('./tweet');
+
+tweetService.tweet(dinosaur);
 
 winston.info("Shutting down dionsauria bot.");

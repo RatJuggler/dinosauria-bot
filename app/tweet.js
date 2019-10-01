@@ -4,7 +4,7 @@ const Twit = require('twit');
 // Pull in the Twitter account keys.
 const config = require('./config.js');
 
-function tweet() {
+function tweetTest() {
     // Instantiate the API object.
     const T = new Twit(config);
 
@@ -16,3 +16,9 @@ function tweet() {
         }
     });
 }
+
+function tweet(dinosaur) {
+    winston.debug("Tweet: " + JSON.stringify(dinosaur));
+}
+
+module.exports.tweet = tweet;

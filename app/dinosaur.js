@@ -1,3 +1,6 @@
+const url = require('url');
+const https = require('https');
+
 const winston = require('./winston.js');
 const dinosaurs = require('dinosaurs');
 
@@ -12,6 +15,29 @@ function getRandomName() {
     return dinoName;
 }
 
+function getWikiPage(wikiURL) {
+    winston.debug("GET Wiki Page: " + wikiURL);
+    let options = {
+        method: 'GET',
+        host: url.parse(wikiURL).host,
+        port: url.parse(wikiURL).port,
+        path: url.parse(wikiURL).path
+    };
+    https.request(options, (response) => {
+        let page = '';
+        response.on('data', (chunk) => {
+            winston.debug("Got data chunk...");
+            page += chunk;
+        });
+        response.on('end', () => {
+            winston.debug("GET returned!");
+            return page;
+        })
+    }).on('error', (error) => {
+        winston.error(error.message);
+    }).end();
+}
+
 function getDinosaur() {
     let dinoName, wikiURL;
     dinoName = getRandomName();
@@ -19,5 +45,8 @@ function getDinosaur() {
     wikiURL = "https://en.wikipedia.org/wiki/" + dinoName;
     return {"name": dinoName, "wikiURL": wikiURL}
 }
+
+let dinosaur = getDinosaur();
+getWikiPage(dinosaur.wikiURL);
 
 module.exports.getDinosaur = getDinosaur;

@@ -19,11 +19,12 @@ function verifyCredentials() {
 }
 
 function tweet(update) {
-    twitterAPI.post('statuses/update', { status: update }, function(err, data, response) {
+    twitterAPI.post('statuses/update', { status: update }, (err, data) => {
         if (err) {
-            winston.error("Problem Tweeting: " + err);
+            winston.error(err.code + ' : ' + err.message);
         } else {
-            winston.info("Tweet Data:\n" + data.toString());
+            winston.debug(JSON.stringify(data));
+            winston.info("Tweeted: " + update);
         }
     });
 }

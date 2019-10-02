@@ -1,4 +1,3 @@
-const url = require('url');
 const https = require('https');
 
 const winston = require('./winston.js');
@@ -17,13 +16,7 @@ function getRandomName() {
 
 function getWikiPage(wikiURL) {
     winston.debug("GET Wiki Page: " + wikiURL);
-    let options = {
-        method: 'GET',
-        host: url.parse(wikiURL).host,
-        port: url.parse(wikiURL).port,
-        path: url.parse(wikiURL).path
-    };
-    https.request(options, (response) => {
+    https.get(wikiURL, (response) => {
         let page = '';
         response.on('data', (chunk) => {
             winston.debug("Got data chunk...");

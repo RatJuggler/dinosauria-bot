@@ -28,7 +28,7 @@ function getWikiPage(wikiURL) {
         })
     }).on('error', (error) => {
         winston.error(error.message);
-    }).end();
+    });
 }
 
 function getDinosaur() {

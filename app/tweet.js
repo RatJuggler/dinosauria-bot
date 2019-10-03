@@ -1,34 +1,34 @@
 const winston = require('./winston.js');
 const twitterAPI = require('./config.js');
 
-function verifyCredentials() {
+async function verifyCredentials() {
     let parameters = {
         include_entities: false,
         skip_status: true,
         include_email: true
     };
-    twitterAPI.get('account/verify_credentials', parameters, (err, data) => {
-        if (err) {
-            winston.error(err.code + ' : ' + err.message);
-            throw new Error("Unable to verify Twitter credentials!");
-        } else {
+    return twitterAPI.get('account/verify_credentials', parameters)
+        .then((data) => {
             winston.debug(JSON.stringify(data));
             winston.info("Twitter credentials verified.");
-        }
-    })
+        })
+        .catch((error) => {
+            winston.error(error.code + ' : ' + error.message);
+            throw new Error("Unable to verify Twitter credentials!");
+        });
 }
 
 function tweet(update) {
-    twitterAPI.post('statuses/update', { status: update }, (err, data) => {
-        if (err) {
-            winston.error(err.code + ' : ' + err.message);
-        } else {
+    twitterAPI.post('statuses/update', { status: update })
+        .then((data) => {
             winston.debug(JSON.stringify(data));
             winston.info("Tweeted: " + update);
-        }
-    });
+        })
+        .catch((error) => {
+            winston.error(error.code + ' : ' + error.message);
+            throw new Error("Unable to verify Twitter credentials!");
+        });
 }
 
-verifyCredentials();
-
 module.exports.tweet = tweet;
+module.exports.verifyCredentials = verifyCredentials;

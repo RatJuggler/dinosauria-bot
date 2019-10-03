@@ -23,10 +23,10 @@ function tweetDinosaur() {
     winston.debug("GET Wiki Page: " + wikiURL);
     request.get(wikiURL)
         .then((result) => {
-            let tweet = dinoName + ": " + wikiURL;
+            let tweet = dinoName;
 //            tweet += wikpedia.findSomeText(result.body);
-            tweet += "\n#DinosaurOfTheDay";
-            winston.debug("Prepare tweet:\n" + tweet);
+            tweet += ' ' + wikiURL + "\n#DinosaurOfTheDay";
+            winston.debug("Prepared tweet(" + tweet.length + "):\n" + tweet);
             return tweet;
         })
         .then((tweet) => {

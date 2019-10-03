@@ -9,4 +9,8 @@ async function main() {
     dinoService.tweetDinosaur();
 }
 
-main();
+main()
+    .finally(_ => {
+        winston.info("Shutting down dionsauria bot.");
+    }
+);

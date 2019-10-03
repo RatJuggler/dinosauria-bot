@@ -1,6 +1,7 @@
 const winston = require('./winston.js');
 const request = require('./request.js');
 const dinosaurs = require('dinosaurs');
+const tweetService = require('./tweet.js');
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -13,27 +14,22 @@ function getRandomName() {
     return dinoName;
 }
 
-function getWikiPage(wikiURL) {
-    winston.debug("GET Wiki Page: " + wikiURL);
-    request.get(wikiURL)
-        .then((result) => {
-            winston.debug(result.body);
-        })
-        .catch((error) => {
-            winston.error(error);
-        });
-    winston.debug("GET Wiki Page completed.")
-}
-
-function getDinosaur() {
+function tweetDinosaur() {
     let dinoName, wikiURL;
     dinoName = getRandomName();
     winston.debug("Selected random name: " + dinoName);
     wikiURL = "https://en.wikipedia.org/wiki/" + dinoName;
-    return {"name": dinoName, "wikiURL": wikiURL}
+    winston.debug("GET Wiki Page: " + wikiURL);
+    request.get(wikiURL)
+        .then((result) => {
+            return dinoName + ": " + wikiURL + "\n#DinosaurOfTheDay";
+        })
+        .then((tweet) => {
+            tweetService.tweet(tweet);
+        })
+        .catch((error) => {
+            winston.error(error);
+        });
 }
 
-let dinosaur = getDinosaur();
-getWikiPage(dinosaur.wikiURL);
-
-module.exports.getDinosaur = getDinosaur;
+module.exports.tweetDinosaur = tweetDinosaur;

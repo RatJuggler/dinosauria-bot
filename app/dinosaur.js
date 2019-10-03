@@ -2,6 +2,7 @@ const winston = require('./winston.js');
 const request = require('./request.js');
 const dinosaurs = require('dinosaurs');
 const tweetService = require('./tweet.js');
+const wikpedia = require('./wikipedia');
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -22,13 +23,17 @@ function tweetDinosaur() {
     winston.debug("GET Wiki Page: " + wikiURL);
     request.get(wikiURL)
         .then((result) => {
-            return dinoName + ": " + wikiURL + "\n#DinosaurOfTheDay";
+            let tweet = dinoName + ": " + wikiURL;
+//            tweet += wikpedia.findSomeText(result.body);
+            tweet += "\n#DinosaurOfTheDay";
+            winston.debug("Prepare tweet:\n" + tweet);
+            return tweet;
         })
         .then((tweet) => {
             tweetService.tweet(tweet);
         })
         .catch((error) => {
-            winston.error(error);
+            winston.error("Unable to retrieve Wikipedia details: " + error.message);
         });
 }
 

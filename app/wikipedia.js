@@ -6,9 +6,9 @@ function stripUnwanted(html) {
     winston.debug("Removed HTML Elements: " + html);
     html = html.replace(/\/.*?\//gi, '');
     winston.debug("Removed Unicode Pronunciation: " + html);
-    html = html.replace(/&quot;/gi, '');
-    winston.debug("Removed HTML &quot;s: " + html);
-    html = html.replace(/&#[0-9A-Z]*;/, '');
+    html = html.replace(/&apos;|&quot;/gi, '');
+    winston.debug("Removed HTML Escapes: " + html);
+    html = html.replace(/&#[x0-9A-Z]*;/, '');
     winston.debug("Removed Remaining Unicode: " + html);
     html = html.replace(/Chinese: .*?; /gi, '');
     winston.debug("Removed Chinese: " + html);

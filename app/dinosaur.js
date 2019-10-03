@@ -1,6 +1,5 @@
-const https = require('https');
-
 const winston = require('./winston.js');
+const request = require('./request.js');
 const dinosaurs = require('dinosaurs');
 
 function getRandomInt(max) {
@@ -16,19 +15,14 @@ function getRandomName() {
 
 function getWikiPage(wikiURL) {
     winston.debug("GET Wiki Page: " + wikiURL);
-    https.get(wikiURL, (response) => {
-        let page = '';
-        response.on('data', (chunk) => {
-            winston.debug("Got data chunk...");
-            page += chunk;
-        });
-        response.on('end', () => {
-            winston.debug("GET returned!");
-            return page;
+    request.get(wikiURL)
+        .then((result) => {
+            winston.debug(result.body);
         })
-    }).on('error', (error) => {
-        winston.error(error.message);
-    });
+        .catch((error) => {
+            winston.error(error);
+        });
+    winston.debug("GET Wiki Page completed.")
 }
 
 function getDinosaur() {

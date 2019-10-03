@@ -20,9 +20,12 @@ function tweetDinosaur() {
     dinoName = getRandomName();
     winston.debug("Selected random name: " + dinoName);
     wikiURL = "https://en.wikipedia.org/wiki/" + dinoName;
-    winston.debug("GET Wiki Page: " + wikiURL);
-    request.get(wikiURL)
+    winston.debug("Wiki URL: " + wikiURL);
+    wikiAPI = "https://en.wikipedia.org/w/api.php?action=parse&prop=wikitext&format=json&page=" + dinoName;
+    winston.debug("Wiki API: " + wikiAPI);
+    request.get(wikiAPI)
         .then((result) => {
+            winston.debug("From Wiki: "+ result.body);
             let tweet = dinoName;
 //            tweet += wikpedia.findSomeText(result.body);
             tweet += ' ' + wikiURL + "\n#DinosaurOfTheDay";

@@ -4,7 +4,7 @@ function get(url) {
     return new Promise((resolve, reject) => {
         let request = https.get(url, (response) => {
             if (response.statusCode < 200 || response.statusCode >= 300) {
-                return reject(new Error(": Invalid status code: " + response.statusCode));
+                return reject(new Error("Invalid status code: " + response.statusCode));
             }
             let body = [];
             response.on('data', (chunk) => {

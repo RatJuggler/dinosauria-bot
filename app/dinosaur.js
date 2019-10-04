@@ -16,24 +16,22 @@ function getRandomName() {
 }
 
 function tweetDinosaur() {
-    let dinoName, wikiURL;
-    dinoName = getRandomName();
+    let dinoName = getRandomName();
     winston.debug("Selected random name: " + dinoName);
-    wikiURL = "https://en.wikipedia.org/wiki/" + dinoName;
+    let wikiURL = "https://en.wikipedia.org/wiki/" + dinoName;
     winston.debug("Wiki URL: " + wikiURL);
-    wikiAPI = "https://en.wikipedia.org/w/api.php?action=parse&prop=wikitext&format=json&page=" + dinoName;
+    let wikiAPI = "https://en.wikipedia.org/w/api.php?action=parse&prop=wikitext&format=json&page=" + dinoName;
     winston.debug("Wiki API: " + wikiAPI);
     request.get(wikiAPI)
         .then((result) => {
-            winston.debug("From Wiki: "+ result.body);
             let tweet = dinoName;
-//            tweet += wikpedia.findSomeText(result.body);
+            tweet += wikpedia.findSomeText(result.body);
             tweet += ' ' + wikiURL + "\n#DinosaurOfTheDay";
             winston.debug("Prepared tweet(" + tweet.length + "):\n" + tweet);
             return tweet;
         })
         .then((tweet) => {
-            tweetService.tweet(tweet);
+//            tweetService.tweet(tweet);
         })
         .catch((error) => {
             winston.error("Unable to retrieve Wikipedia details: " + error.message);

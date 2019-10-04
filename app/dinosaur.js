@@ -4,6 +4,11 @@ const dinosaurs = require('dinosaurs');
 const tweetService = require('./tweet.js');
 const wikpedia = require('./wikipedia');
 
+const TWEET_LENGTH = 280;
+const WIKI_URL = "https://en.wikipedia.org/wiki/";
+const WIKI_API = "https://en.wikipedia.org/w/api.php?action=parse&prop=wikitext&format=json&page=";
+const DINO_OF_THE_DAY = "\n#DinosaurOfTheDay";
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -18,15 +23,15 @@ function getRandomName() {
 function tweetDinosaur() {
     let dinoName = getRandomName();
     winston.debug("Selected random name: " + dinoName);
-    let wikiURL = "https://en.wikipedia.org/wiki/" + dinoName;
+    let wikiURL = WIKI_URL + dinoName;
     winston.debug("Wiki URL: " + wikiURL);
-    let wikiAPI = "https://en.wikipedia.org/w/api.php?action=parse&prop=wikitext&format=json&page=" + dinoName;
+    let wikiAPI = WIKI_API + dinoName;
     winston.debug("Wiki API: " + wikiAPI);
     request.get(wikiAPI)
         .then((result) => {
-            let tweet = dinoName;
-            tweet += wikpedia.findSomeText(result.body);
-            tweet += ' ' + wikiURL + "\n#DinosaurOfTheDay";
+            let textSize = TWEET_LENGTH - WIKI_URL.length +- dinoName.length - DINO_OF_THE_DAY.length - 1;
+            let dinoText = wikpedia.findSomeText(result.body, textSize);
+            let tweet = dinoText + ' ' + wikiURL + DINO_OF_THE_DAY;
             winston.debug("Prepared tweet(" + tweet.length + "):\n" + tweet);
             return tweet;
         })

@@ -19,12 +19,29 @@ function removeBraceSections(markup, openBrace, closeBrace) {
     return markup;
 }
 
+function removePageNames(markup) {
+    let links = markup.match(/\[\[.*?]]/gi);
+    for (let i = 0; i < links.length; i++) {
+        let link = links[i];
+        // If no page name in link then skip.
+        if (link.indexOf('|') === -1) {continue;}
+        // Find the text shown for the link.
+        let findLinkText = link.match(/\|.*?]/gi);
+        // Odd if we don't find anything...
+        if (!findLinkText) {continue;}
+        // Replace the link with the text that should show.
+        let linkText = findLinkText[0];
+        linkText = linkText.slice(1, linkText.length-1);
+        markup = markup.replace(link, linkText);
+        winston.debug("Replace link: " + link + ' => ' + linkText);
+    }
+    return markup;
+}
+
 function stripUnwanted(markup) {
     markup = markup.replace(/'''/gi, '');
     markup = markup.replace(/''/gi, '');
     winston.debug("Removed bold/italic:\n" + markup);
-    markup = markup.replace(/\|.*?]/gi, ']');
-    winston.debug("Removed page names:\n" + markup);
     markup = markup.replace(/\[\[|]]/gi, '');
     winston.debug("Removed all square brackets:\n" + markup);
     markup = markup.replace(/&nbsp;/gi, ' ');
@@ -34,7 +51,7 @@ function stripUnwanted(markup) {
 
 function findSomeText(body, textSize) {
     let markup = JSON.parse(body);
-    let wikiText = markup.parse.wikitext['*'];
+    let wikiText = markup.parse['wikitext']['*'];
     // Replace all newlines with spaces to help with parsing.
     wikiText = wikiText.replace(/\n/gi, ' ');
     winston.debug("From Wiki:\n"+ wikiText);
@@ -48,6 +65,8 @@ function findSomeText(body, textSize) {
         wikiText = removeBrace(wikiText, 0, '[', ']');
         winston.debug("Removed initial [] section:\n" + wikiText);
     }
+    wikiText = removePageNames(wikiText);
+    winston.debug("Removed page names:\n" + wikiText);
     wikiText = stripUnwanted(wikiText);
     wikiText = wikiText.match(/.*?\. /);
     wikiText = String(wikiText).trim();

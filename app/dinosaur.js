@@ -38,7 +38,7 @@ function tweetDinosaur() {
             return tweet;
         })
         .then((tweet) => {
-//            tweetService.tweet(tweet);
+            tweetService.tweet(tweet);
         })
         .catch((error) => {
             winston.error("Unable to retrieve Wikipedia details: " + error.message);

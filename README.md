@@ -2,9 +2,11 @@
 
 Dinosaur of the Day Twitter bot currently tweeting under the handle [@dinosauria_bot](https://twitter.com/dinosauria_bot)
 
-Currently it only tweets a random dinosaur name and a link to what should be it's Wikipedia page. I'd like it to
-validate that the page exists and pull in the first sentence, and maybe an image, but I'm having trouble getting my head
-round some aspects of the NodeJS / Async / Non-blocking way of doing things.
+Tweets a random dinosaur name with some additional text pulled from it's Wikipedia page and a link to that page.
+
+Scraping the text from Wikipedia proved to be way harder than I imagined (see the comments on the 
+[wtf_wikipeda](https://github.com/spencermountain/wtf_wikipedia) page for an idea of why). It now makes a reasonable
+attempt at extracting something meaningful from the first sentence using a hodgepodge of regex.
 
 ## Install / Run
 
@@ -50,3 +52,4 @@ Packages I chose not to use:
 - request
 - request-promise-native
 - url-exists
+- wtf-wikipedia

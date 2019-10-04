@@ -1,22 +1,47 @@
 const winston = require('./winston.js');
 
-function stripUnwanted(markup) {
-    let text = markup.replace(/'''''/gi, '');
-    winston.debug("Removed bold/italic: " + text);
-    text = markup.replace(/\[\[|\]\]/gi, '');
-    winston.debug("Removed all square brackets: " + text);
-    return text;
+function removeBrace(markup, startingFrom, openBrace, closeBrace) {
+    let braceMatch = 0;
+    for (let i = startingFrom; i < markup.length; i++) {
+        let char = markup.charAt(i);
+        if (char === openBrace) {braceMatch++;}
+        if (char === closeBrace) {braceMatch--;}
+        if (braceMatch === 0) {braceMatch = i; break;}
+    }
+    return markup.slice(0, startingFrom) + markup.slice(++braceMatch);
 }
 
-function findSomeText(body) {
-    let markup = JSON.parse(body);
-    let wikitext = JSON.stringify(markup.parse.wikitext);
-    winston.debug("From Wiki: "+ wikitext);
-    // TODO: Deal with redirects correctly.
-    if (wikitext.includes('#redirect') || wikitext.includes('#REDIRECT')) {return}
-    let initialText = wikitext.match(/'''''.*?[.,]/);
-    winston.debug("initialText: " + initialText);
+function removeBraceSections(markup, openBrace, closeBrace) {
+    let braceStart = -1;
+    while ((braceStart = markup.indexOf(openBrace)) !== -1) {
+        markup = removeBrace(markup, braceStart, openBrace, closeBrace);
+    }
+    return markup;
+}
 
+function stripUnwanted(markup) {
+    markup = markup.replace(/'''''/gi, '');
+    winston.debug("Removed bold/italic:\n" + markup);
+    markup = markup.replace(/\[\[|\]\]/gi, '');
+    winston.debug("Removed all square brackets:\n" + markup);
+    return markup;
+}
+
+function findSomeText(body, textSize) {
+    let markup = JSON.parse(body);
+    let wikiText = markup.parse.wikitext['*'];
+    wikiText = wikiText.replace(/\n/gi, '');
+    winston.debug("From Wiki:\n"+ wikiText);
+    // TODO: Deal with redirects correctly.
+    if (wikiText.includes('#redirect') || wikiText.includes('#REDIRECT')) {return;}
+    wikiText = removeBraceSections(wikiText, '{', '}');
+    winston.debug("Removed {} sections:\n" + wikiText);
+    wikiText = removeBraceSections(wikiText, '<', '>');
+    winston.debug("Removed <> sections:\n" + wikiText);
+    wikiText = stripUnwanted(wikiText);
+    wikiText = wikiText.match(/.*?\./);
+    winston.debug("First Sentence:\n" + wikiText);
+    return wikiText;
 }
 
 module.exports.findSomeText = findSomeText;

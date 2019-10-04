@@ -10,10 +10,10 @@ function stripUnwanted(markup) {
 
 function findSomeText(body) {
     let markup = JSON.parse(body);
-    let wikitext = markup.parse.wikitext;
-    winston.debug("From Wiki: "+ JSON.stringify(markup.parse.wikitext));
+    let wikitext = JSON.stringify(markup.parse.wikitext);
+    winston.debug("From Wiki: "+ wikitext);
     // TODO: Deal with redirects correctly.
-    if (wikitext.contains('#redirect')) {return}
+    if (wikitext.includes('#redirect') || wikitext.includes('#REDIRECT')) {return}
     let initialText = wikitext.match(/'''''.*?[.,]/);
     winston.debug("initialText: " + initialText);
 

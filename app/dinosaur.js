@@ -29,9 +29,11 @@ function tweetDinosaur() {
     winston.debug("Wiki API: " + wikiAPI);
     request.get(wikiAPI)
         .then((result) => {
-            let textSize = TWEET_LENGTH - WIKI_URL.length +- dinoName.length - DINO_OF_THE_DAY.length - 1;
+            // Twitter shortens links to 23 characters.
+            let textSize = TWEET_LENGTH - 23 - DINO_OF_THE_DAY.length - 1;
             let dinoText = wikpedia.findSomeText(result.body, textSize);
-            let tweet = dinoText + ' ' + wikiURL + DINO_OF_THE_DAY;
+            if (!dinoText) {dinoText = dinoName;}
+            let tweet = dinoText + '\n' + wikiURL + DINO_OF_THE_DAY;
             winston.debug("Prepared tweet(" + tweet.length + "):\n" + tweet);
             return tweet;
         })

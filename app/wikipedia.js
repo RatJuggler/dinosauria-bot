@@ -52,6 +52,7 @@ function stripUnwanted(markup) {
 function fixFormat(markup) {
     markup = markup.replace(/\([:;,.] /gi, '(');
     markup = markup.replace('  ', ' ');
+    markup = markup.replace(' , ', ', ');
     markup = markup.replace(' ( ) ', ' ');
     winston.debug("Fixed format:\n" + markup);
     return markup;
@@ -67,10 +68,10 @@ function findSomeText(body, textSize) {
     if (wikiText.includes('#redirect') || wikiText.includes('#REDIRECT')) {return;}
     wikiText = removeBraceSections(wikiText, '{', '}');
     winston.debug("Removed {} sections:\n" + wikiText);
-    wikiText = wikiText.replace(/\[\[File:.*?]]/, '');
+    wikiText = wikiText.replace(/\[\[File:.*?]]/gi, '');
     winston.debug("Removed file links:\n" + wikiText);
-    wikiText = removeBraceSections(wikiText, '<', '>');
-    winston.debug("Removed <> sections:\n" + wikiText);
+    wikiText = wikiText.replace(/<ref.*?ref>/gi, '');
+    winston.debug("Removed references:\n" + wikiText);
     wikiText = String(wikiText).trim();
     if (wikiText.startsWith('[')) {
         wikiText = removeBrace(wikiText, 0, '[', ']');

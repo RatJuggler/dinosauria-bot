@@ -43,9 +43,17 @@ function stripUnwanted(markup) {
     markup = markup.replace(/''/gi, '');
     winston.debug("Removed bold/italic:\n" + markup);
     markup = markup.replace(/\[\[|]]/gi, '');
-    winston.debug("Removed all square brackets:\n" + markup);
+    winston.debug("Removed all double square brackets:\n" + markup);
     markup = markup.replace(/&nbsp;/gi, ' ');
     winston.debug("Removed &nbsp;:\n" + markup);
+    return markup;
+}
+
+function fixFormat(markup) {
+    markup = markup.replace(/\([:;,.] /gi, '(');
+    markup = markup.replace('  ', ' ');
+    markup = markup.replace(' ( ) ', ' ');
+    winston.debug("Fixed format:\n" + markup);
     return markup;
 }
 
@@ -59,8 +67,11 @@ function findSomeText(body, textSize) {
     if (wikiText.includes('#redirect') || wikiText.includes('#REDIRECT')) {return;}
     wikiText = removeBraceSections(wikiText, '{', '}');
     winston.debug("Removed {} sections:\n" + wikiText);
+    wikiText = wikiText.replace(/\[\[File:.*?]]/, '');
+    winston.debug("Removed file links:\n" + wikiText);
     wikiText = removeBraceSections(wikiText, '<', '>');
     winston.debug("Removed <> sections:\n" + wikiText);
+    wikiText = String(wikiText).trim();
     if (wikiText.startsWith('[')) {
         wikiText = removeBrace(wikiText, 0, '[', ']');
         winston.debug("Removed initial [] section:\n" + wikiText);
@@ -68,11 +79,13 @@ function findSomeText(body, textSize) {
     wikiText = removePageNames(wikiText);
     winston.debug("Removed page names:\n" + wikiText);
     wikiText = stripUnwanted(wikiText);
+    wikiText = fixFormat(wikiText);
     wikiText = wikiText.match(/.*?\. /);
     wikiText = String(wikiText).trim();
     winston.debug("First Sentence:\n" + wikiText);
     if (wikiText.length > textSize) {
         wikiText = wikiText.slice(0, textSize-3) + '...';
+        winston.debug("Resize to fit:\n" + wikiText);
     }
     return wikiText;
 }

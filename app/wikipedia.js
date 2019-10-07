@@ -39,6 +39,8 @@ function removePageNames(markup) {
 }
 
 function stripUnwanted(markup) {
+    markup = markup.replace(/'''''/gi, '');
+    markup = markup.replace(/''''/gi, '');
     markup = markup.replace(/'''/gi, '');
     markup = markup.replace(/''/gi, '');
     winston.debug("Removed bold/italic:\n" + markup);
@@ -51,9 +53,10 @@ function stripUnwanted(markup) {
 
 function fixFormat(markup) {
     markup = markup.replace(/\([:;,.] /gi, '(');
-    markup = markup.replace('  ', ' ');
-    markup = markup.replace(' , ', ', ');
-    markup = markup.replace(' ( ) ', ' ');
+    markup = markup.replace(/  /gi, ' ');
+    markup = markup.replace(/ , /gi, ', ');
+    markup = markup.replace(/ \/ /gi, ' ');
+    markup = markup.replace(/ ( ) /gi, ' ');
     winston.debug("Fixed format:\n" + markup);
     return markup;
 }

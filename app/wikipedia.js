@@ -1,5 +1,19 @@
 const winston = require('./winston.js');
 
+class RedirectError extends Error {
+    constructor(redirectTo, ...params) {
+        // Pass remaining arguments (including vendor specific ones) to parent constructor
+        super(...params);
+        // Maintains proper stack trace for where our error was thrown (only available on V8)
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, RedirectError);
+        }
+        this.name = 'RedirectError';
+        // Custom debugging information
+        this.redirectTo = redirectTo;
+    }
+}
+
 function removeBrace(markup, startingFrom, openBrace, closeBrace) {
     let braceMatch = 0;
     for (let i = startingFrom; i < markup.length; i++) {
@@ -67,15 +81,18 @@ function findSomeText(body, textSize) {
     // Replace all newlines with spaces to help with parsing.
     wikiText = wikiText.replace(/\n/gi, ' ');
     winston.debug("From Wiki:\n"+ wikiText);
-    // TODO: Deal with redirects correctly.
-    if (wikiText.includes('#redirect') || wikiText.includes('#REDIRECT')) {return;}
+    if (wikiText.includes('#redirect') || wikiText.includes('#REDIRECT')) {
+        let redirectTo = String(wikiText.match(/\[\[.*?]]/));
+        redirectTo = redirectTo.replace(/\[\[|]]/gi, '');
+        winston.info("Redirecting to: " + redirectTo);
+        throw new RedirectError(redirectTo);
+    }
     wikiText = removeBraceSections(wikiText, '{', '}');
     winston.debug("Removed {} sections:\n" + wikiText);
     wikiText = wikiText.replace(/\[\[File:.*?]]/gi, '');
     winston.debug("Removed file links:\n" + wikiText);
     wikiText = wikiText.replace(/<ref.*?ref>/gi, '');
     winston.debug("Removed references:\n" + wikiText);
-    wikiText = String(wikiText).trim();
     if (wikiText.startsWith('[')) {
         wikiText = removeBrace(wikiText, 0, '[', ']');
         winston.debug("Removed initial [] section:\n" + wikiText);
@@ -94,4 +111,5 @@ function findSomeText(body, textSize) {
     return wikiText;
 }
 
+module.exports.RedirectError = RedirectError;
 module.exports.findSomeText = findSomeText;

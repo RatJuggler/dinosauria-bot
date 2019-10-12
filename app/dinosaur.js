@@ -20,9 +20,15 @@ function getRandomName() {
     return dinoName;
 }
 
-function tweetDinosaur() {
-    let dinoName = getRandomName();
-    winston.debug("Selected random name: " + dinoName);
+function tweetDinosaur(redirectTo) {
+    let dinoName;
+    if (redirectTo) {
+        dinoName = redirectTo;
+        winston.debug("Redirected to: " + dinoName);
+    } else {
+        dinoName = getRandomName();
+        winston.debug("Selected random name: " + dinoName);
+    }
     let wikiURL = WIKI_URL + dinoName;
     winston.debug("Wiki URL: " + wikiURL);
     let wikiAPI = WIKI_API + dinoName;
@@ -41,7 +47,11 @@ function tweetDinosaur() {
             tweetService.tweet(tweet);
         })
         .catch((error) => {
-            winston.error("Unable to retrieve Wikipedia details: " + error.message);
+            if (error instanceof wikpedia.RedirectError) {
+                tweetDinosaur(error.redirectTo);
+            } else {
+                winston.error("Unable to retrieve Wikipedia details: " + error.message);
+            }
         });
 }
 

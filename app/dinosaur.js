@@ -1,6 +1,6 @@
 const winston = require('./winston.js');
 const request = require('./request.js');
-const dinosaurs = require('dinosaurs');
+const dinosaurs = [].concat(require('dinosaurs'));  // Force type of dinosaurs array.
 const tweetService = require('./tweet.js');
 const wikpedia = require('./wikipedia');
 

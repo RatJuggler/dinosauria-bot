@@ -9,7 +9,6 @@ class RedirectError extends Error {
             Error.captureStackTrace(this, RedirectError);
         }
         this.name = 'RedirectError';
-        // Custom debugging information
         this.redirectTo = redirectTo;
     }
 }

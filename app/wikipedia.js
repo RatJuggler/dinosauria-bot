@@ -67,7 +67,7 @@ function stripUnwanted(markup) {
 
 function fixFormat(markup) {
     markup = markup.replace(/\([:;,.] /gi, '(');
-    markup = markup.replace(/  /gi, ' ');
+    markup = markup.replace(/ {2,}/gi, ' ');
     markup = markup.replace(/ , /gi, ', ');
     markup = markup.replace(/ \/ /gi, ' ');
     markup = markup.replace(/ ( ) /gi, ' ');

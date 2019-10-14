@@ -1,8 +1,9 @@
 # dinosauria-bot
 
-Dinosaur of the Day Twitter bot currently tweeting under the handle [@dinosauria_bot](https://twitter.com/dinosauria_bot)
+This bot currently tweets a "Dinosaur of the Day Twitter" under the handle [@dinosauria_bot](https://twitter.com/dinosauria_bot).
+Work is underway to also allow it to tweet a fictitious "Fake Dinosaur".
 
-Tweets a random dinosaur name with some additional text pulled from it's Wikipedia page and a link to that page.
+It tweets a real random dinosaur name with some additional text pulled from it's Wikipedia page and a link to that page.
 
 Scraping the text from Wikipedia proved to be way harder than I imagined (see the comments on the 
 [wtf_wikipeda](https://github.com/spencermountain/wtf_wikipedia) page for an idea of why). It now makes a reasonable

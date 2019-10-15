@@ -69,7 +69,7 @@ function fixFormat(markup) {
     markup = markup.replace(/ {2,}/gi, ' ');
     markup = markup.replace(/ , /gi, ', ');
     markup = markup.replace(/ \/ /gi, ' ');
-    markup = markup.replace(/ ( ) /gi, ' ');
+    markup = markup.replace(/ \( ?\) /gi, ' ');
     winston.debug("Fixed format:\n" + markup);
     return markup;
 }

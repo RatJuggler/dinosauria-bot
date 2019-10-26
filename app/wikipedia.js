@@ -90,7 +90,10 @@ function findSomeText(body, textSize) {
     winston.debug("Removed {} sections:\n" + wikiText);
     wikiText = wikiText.replace(/\[\[File:.*?]]/gi, '');
     winston.debug("Removed file links:\n" + wikiText);
-    wikiText = wikiText.replace(/<ref.*?ref>/gi, '');
+    wikiText = wikiText.replace(/<!--.*?-->/gi, '');
+    winston.debug("Removed comments:\n" + wikiText);
+    wikiText = wikiText.replace(/<ref.*?\/>/gi, '');
+    wikiText = wikiText.replace(/<ref.*?\/ref>/gi, '');
     winston.debug("Removed references:\n" + wikiText);
     if (wikiText.startsWith('[')) {
         wikiText = removeBrace(wikiText, 0, '[', ']');

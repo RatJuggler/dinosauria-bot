@@ -92,6 +92,7 @@ function findSomeText(body, textSize) {
     winston.debug("Removed file links:\n" + wikiText);
     wikiText = wikiText.replace(/<!--.*?-->/gi, '');
     winston.debug("Removed comments:\n" + wikiText);
+    wikiText = wikiText.replace(/<references.*?\/references>/gi, '');
     wikiText = wikiText.replace(/<ref.*?\/ref>/gi, '');
     wikiText = wikiText.replace(/<ref.*?\/>/gi, '');
     winston.debug("Removed references:\n" + wikiText);

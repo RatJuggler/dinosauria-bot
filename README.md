@@ -1,9 +1,8 @@
 # dinosauria-bot
 
 This bot currently tweets a "Dinosaur of the Day Twitter" under the handle [@dinosauria_bot](https://twitter.com/dinosauria_bot).
-Work is underway to also allow it to tweet a fictitious "Fake Dinosaur".
 
-It tweets a real random dinosaur name with some additional text pulled from it's Wikipedia page and a link to that page.
+It tweets a random dinosaur name with some additional text pulled from its Wikipedia page and a link to that page.
 
 Scraping the text from Wikipedia proved to be way harder than I imagined (see the comments on the 
 [wtf_wikipeda](https://github.com/spencermountain/wtf_wikipedia) page for an idea of why). It now makes a reasonable
@@ -21,7 +20,7 @@ Then install the packages required:
 $ npm install
 ```
 I've used [nconf](https://www.npmjs.com/package/nconf) so that you can configure the Twitter access keys using
-environment variables or a configuration file. To use the configuration file copy the template:
+environment variables, or a configuration file. To use the configuration file copy the template:
 ```
 $ cp app/config.json.template app/config.json
 ```
@@ -42,15 +41,15 @@ Cron job so that it's not sat there idling for the rest of the time.
 ## Addendum
 
 With npm it's easy to start pulling in packages left, right and centre and soon build up a huge list of dependencies,
-so I've tried not to do that. Instead I've only pulled in packages for major infrastructure components that are
-essential (like the Twitter API) or that I want to try out as I think they are useful (nconf and winston). For other 
+so I've tried not to do that. Instead, I've only pulled in packages for major infrastructure components that are
+essential (like the Twitter API) or that I want to try out as I think they are useful (`nconf` and `winston`). For other 
 things I've tried to stick with simple functions which implement the bare minimum of what the application needs. This
 also helps with learning as I'm forced to write my own code, Promises :scream:
 
 Packages I chose not to use:
 
-- random
-- request
-- request-promise-native
-- url-exists
-- wtf-wikipedia
+- `random`
+- `request`
+- `request-promise-native`
+- `url-exists`
+- `wtf-wikipedia`

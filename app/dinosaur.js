@@ -29,9 +29,9 @@ function tweetDinosaur(redirectTo) {
         dinoName = getRandomName();
         winston.debug("Selected random name: " + dinoName);
     }
-    let wikiURL = WIKI_URL + dinoName;
+    let wikiURL = encodeURI(WIKI_URL + dinoName);
     winston.debug("Wiki URL: " + wikiURL);
-    let wikiAPI = WIKI_API + dinoName;
+    let wikiAPI = encodeURI(WIKI_API + dinoName);
     winston.debug("Wiki API: " + wikiAPI);
     request.get(wikiAPI)
         .then((result) => {

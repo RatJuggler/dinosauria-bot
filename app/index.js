@@ -1,28 +1,16 @@
 const winston = require('./winston.js');
 const tweet = require('./tweet.js');
+const dinoService = require('./dinosaur.js');
 
 winston.info("Booting dinosauria bot...");
 
-async function dinosaurOfTheDay() {
-    const dotdService = require('./dinosaur.js');
+async function main() {
     await tweet.verifyCredentials();
-    await dotdService.tweetDinosaur();
+    dinoService.tweetDinosaur();
 }
 
-async function madeUpDinosaur() {
-    const mudService = require('./madeup.js');
-    await tweet.verifyCredentials();
-    console.log('mudService.tweetMadeUp()');
-}
-
-let operation;
-let argv = process.argv.slice(2);
-if (!argv || argv.length === 0 || argv[0] === 'dotd') {
-    operation = dinosaurOfTheDay();
-} else {
-    operation = madeUpDinosaur();
-}
-operation.finally(_ => {
-        winston.info("Completing dinosauria bot.");
+main()
+    .finally(_ => {
+        winston.info("Shutting down dionsauria bot.");
     }
 );

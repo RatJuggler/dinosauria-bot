@@ -15,19 +15,20 @@ class RedirectError extends Error {
 
 function removeBrace(markup, startingFrom, openBrace, closeBrace) {
     let braceMatch = 0;
+    let braceSize = openBrace.length;
     for (let i = startingFrom; i < markup.length; i++) {
-        let char = markup.charAt(i);
-        if (char === openBrace) {braceMatch++;}
-        if (char === closeBrace) {braceMatch--;}
+        let match = markup.slice(i, i + braceSize);
+        if (match === openBrace) {braceMatch++;}
+        if (match === closeBrace) {braceMatch--;}
         if (braceMatch === 0) {braceMatch = i; break;}
     }
-    return markup.slice(0, startingFrom) + markup.slice(++braceMatch);
+    return markup.slice(0, startingFrom) + markup.slice(braceMatch + braceSize);
 }
 
-function removeBraceSections(markup, openBrace, closeBrace) {
-    let braceStart;
-    while ((braceStart = markup.indexOf(openBrace)) !== -1) {
-        markup = removeBrace(markup, braceStart, openBrace, closeBrace);
+function removeBraceSections(markup, openSection, openBrace, closeBrace) {
+    let sectionStart;
+    while ((sectionStart = markup.indexOf(openSection)) !== -1) {
+        markup = removeBrace(markup, sectionStart, openBrace, closeBrace);
     }
     return markup;
 }
@@ -86,9 +87,9 @@ function findSomeText(body, textSize) {
         winston.info("Redirecting to: " + redirectTo);
         throw new RedirectError(redirectTo);
     }
-    wikiText = removeBraceSections(wikiText, '{', '}');
+    wikiText = removeBraceSections(wikiText, '{', '{','}');
     winston.debug("Removed {} sections:\n" + wikiText);
-    wikiText = wikiText.replace(/\[\[File:.*?]]/gi, '');
+    wikiText = removeBraceSections(wikiText, '[[File:', '[[', ']]');
     winston.debug("Removed file links:\n" + wikiText);
     wikiText = wikiText.replace(/<!--.*?-->/gi, '');
     winston.debug("Removed comments:\n" + wikiText);

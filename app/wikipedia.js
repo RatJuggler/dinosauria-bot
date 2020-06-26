@@ -15,7 +15,7 @@ class RedirectError extends Error {
 
 function removeBrace(markup, startingFrom, openBrace, closeBrace) {
     let braceMatch = 0;
-    let braceSize = openBrace.length;
+    const braceSize = openBrace.length;
     for (let i = startingFrom; i < markup.length; i++) {
         let match = markup.slice(i, i + braceSize);
         if (match === openBrace) {braceMatch++;}
@@ -34,21 +34,22 @@ function removeBraceSections(markup, openSection, openBrace, closeBrace) {
 }
 
 function removePageNames(markup) {
-    let links = markup.match(/\[\[.*?]]/gi);
-    for (let i = 0; i < links.length; i++) {
-        let link = links[i];
+    const links = markup.match(/\[\[.*?]]/gi);
+    links.forEach((link) => {
         // If no page name in link then skip.
-        if (link.indexOf('|') === -1) {continue;}
-        // Find the text shown for the link.
-        let findLinkText = link.match(/\|.*?]/gi);
-        // Odd if we don't find anything...
-        if (!findLinkText) {continue;}
-        // Replace the link with the text that should show.
-        let linkText = findLinkText[0];
-        linkText = linkText.slice(1, linkText.length-1);
-        markup = markup.replace(link, linkText);
-        winston.debug("Replace link: " + link + ' => ' + linkText);
-    }
+        if (link.indexOf('|') !== -1) {
+            // Find the text shown for the link.
+            const findLinkText = link.match(/\|.*?]/gi);
+            // Odd if we don't find anything...
+            if (findLinkText) {
+                // Replace the link with the text that should show.
+                let linkText = findLinkText[0];
+                linkText = linkText.slice(1, linkText.length - 1);
+                markup = markup.replace(link, linkText);
+                winston.debug("Replace link: " + link + ' => ' + linkText);
+            }
+        }
+    });
     return markup;
 }
 
@@ -79,19 +80,25 @@ function findSomeText(body, textSize) {
     let wikiText = JSON.parse(body).parse['wikitext']['*'];
     // Replace all newlines with spaces to help with parsing.
     wikiText = wikiText.replace(/\n/gi, ' ');
-    winston.debug("From Wiki:\n"+ wikiText);
+    winston.debug("From Wikipedia (length: " + wikiText.length + ")\n"+ wikiText);
     if (wikiText.includes('#redirect') || wikiText.includes('#REDIRECT')) {
         let redirectTo = String(wikiText.match(/\[\[.*?]]/));
         redirectTo = redirectTo.replace(/\[\[|]]/gi, '');
         winston.info("Redirecting to: " + redirectTo);
         throw new RedirectError(redirectTo);
     }
+    if (wikiText.length > 4096) {
+        wikiText = wikiText.slice(0, 4096);
+        winston.debug("Only use the first 4K of text:\n" + wikiText);
+    }
     wikiText = removeBraceSections(wikiText, '{', '{','}');
     winston.debug("Removed {} sections:\n" + wikiText);
     wikiText = removeBraceSections(wikiText, '[[File:', '[[', ']]');
     winston.debug("Removed file links:\n" + wikiText);
-    wikiText = wikiText.replace(/<!--.*?-->/gi, '');
+    wikiText = removeBraceSections(wikiText,'<!--', '<!--', '-->');
     winston.debug("Removed comments:\n" + wikiText);
+    wikiText = removeBraceSections(wikiText,'== ', '== ', ' ==');
+    winston.debug("Removed section headers:\n" + wikiText);
     wikiText = wikiText.replace(/<references.*?\/.*?>/gi, '');
     wikiText = wikiText.replace(/<ref.*?\/.*?>/gi, '');
     winston.debug("Removed references:\n" + wikiText);

@@ -76,8 +76,7 @@ function fixFormat(markup) {
 }
 
 function findSomeText(body, textSize) {
-    let markup = JSON.parse(body);
-    let wikiText = markup.parse['wikitext']['*'];
+    let wikiText = JSON.parse(body).parse['wikitext']['*'];
     // Replace all newlines with spaces to help with parsing.
     wikiText = wikiText.replace(/\n/gi, ' ');
     winston.debug("From Wiki:\n"+ wikiText);
@@ -104,14 +103,24 @@ function findSomeText(body, textSize) {
     winston.debug("Removed page names:\n" + wikiText);
     wikiText = stripUnwanted(wikiText);
     wikiText = fixFormat(wikiText);
-    wikiText = wikiText.match(/.*?\. /);
     wikiText = String(wikiText).trim();
-    winston.debug("First Sentence:\n" + wikiText);
-    if (wikiText.length > textSize) {
-        wikiText = wikiText.slice(0, textSize-3) + '...';
-        winston.debug("Resize to fit:\n" + wikiText);
+    const sentences = wikiText.match(/.*?\. /gi);
+    let finalText = "";
+    for (const sentence of sentences) {
+        if (finalText.length + sentence.length > textSize) {
+            if (finalText.length < (textSize / 2)) {
+                finalText += sentence;
+            }
+            break;
+        }
+        finalText += sentence;
     }
-    return wikiText;
+    winston.debug("Final Text:\n" + finalText);
+    if (finalText.length > textSize) {
+        finalText = finalText.slice(0, textSize-3) + '...';
+        winston.debug("Resize to fit:\n" + finalText);
+    }
+    return finalText;
 }
 
 module.exports.RedirectError = RedirectError;

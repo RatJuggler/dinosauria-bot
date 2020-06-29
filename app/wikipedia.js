@@ -13,22 +13,24 @@ class RedirectError extends Error {
     }
 }
 
-function removeBrace(markup, startingFrom, openBrace, closeBrace) {
+function parseBraces(markup, startingFrom, openBrace, closeBrace) {
     let braceMatch = 0;
     const braceSize = openBrace.length;
     for (let i = startingFrom; i < markup.length; i++) {
         let match = markup.slice(i, i + braceSize);
         if (match === openBrace) {braceMatch++;}
         if (match === closeBrace) {braceMatch--;}
-        if (braceMatch === 0) {braceMatch = i; break;}
+        if (braceMatch === 0) {
+            return i + braceSize;
+        }
     }
-    return markup.slice(0, startingFrom) + markup.slice(braceMatch + braceSize);
+    return markup.length;
 }
 
 function removeBraceSections(markup, openSection, openBrace, closeBrace) {
     let sectionStart;
     while ((sectionStart = markup.indexOf(openSection)) !== -1) {
-        markup = removeBrace(markup, sectionStart, openBrace, closeBrace);
+        markup = markup.slice(0, sectionStart) + markup.slice(parseBraces(markup, sectionStart, openBrace, closeBrace));
     }
     return markup;
 }

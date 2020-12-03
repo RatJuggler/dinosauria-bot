@@ -1,8 +1,13 @@
 {
   "title": "Dinosauria Twitter Bot",
   "name": "dinosauria-bot",
-  "version": "0.0.1",
-  "description": "Twitter bot to tweet #DinosaurOfTheDay.",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Twitter bot to tweet a #DinosaurOfTheDay.",
+  "keywords": [],
+  "homepage": "https://github.com/RatJuggler/dinosauria-bot#readme",
+  "author": "John Chase",
+  "license": "MIT",
   "main": "app/index.js",
   "scripts": {
     "pack": "npm pack",
@@ -13,9 +18,6 @@
     "type": "git",
     "url": "git+https://github.com/RatJuggler/dinosauria-bot.git"
   },
-  "keywords": [],
-  "author": "John Chase",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/RatJuggler/dinosauria-bot/issues"
   },

@@ -26,10 +26,10 @@ $ node app/dinosauria-bot.js --help
 Usage: dinosauria-bot.js [options]
 
 Options:
-      --help     Show help                                             [boolean]
-      --version  Show version number                                   [boolean]
-  -q, --quiet    Run without invoking the Twitter API
-                                                    [boolean] [default: "false"]
+      --help      Show help                                            [boolean]
+      --version   Show version number                                  [boolean]
+  -d, --dinosaur  Run for the specified dinosaur                        [string]
+  -q, --quiet     Run without invoking the Twitter API                 [boolean]
 ```
 You can use the `-q` option to run without using the Twitter API but to make it fully functional you will need to set up a Twitter
 account and apply for access [here](https://developer.twitter.com/en/apply-for-access). You'll then need to make the following

@@ -33,7 +33,7 @@ Edit the new file and add your keys:
   "TWITTER_ACCESS_TOKEN_SECRET": "<your access token secret here>"
 }
 ```
-You can then run the bot with `node app/index.js` or just `npm start`. 
+You can then run the bot with `node app/dinosauria-bot.js` or just `npm start`. 
 
 As it's really only meant to tweet once a day it will send a tweet then exit immediately. I'm running it daily with a
 Cron job so that it's not sat there idling for the rest of the time.
@@ -44,7 +44,7 @@ With npm it's easy to start pulling in packages left, right and centre and soon 
 so I've tried not to do that. Instead, I've only pulled in packages for major infrastructure components that are
 essential (like the Twitter API) or that I want to try out as I think they are useful (`nconf` and `winston`). For other 
 things I've tried to stick with simple functions which implement the bare minimum of what the application needs. This
-also helps with learning as I'm forced to write my own code, Promises :scream:
+also helps with learning as I'm forced to write my own code.
 
 Packages I chose not to use:
 

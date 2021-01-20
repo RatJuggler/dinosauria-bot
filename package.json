@@ -8,10 +8,10 @@
   "homepage": "https://github.com/RatJuggler/dinosauria-bot#readme",
   "author": "John Chase",
   "license": "MIT",
-  "main": "app/index.js",
+  "main": "app/dinosauria-bot.js",
   "scripts": {
     "pack": "npm pack",
-    "start": "node app/index.js",
+    "start": "node app/dinosauria-bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

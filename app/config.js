@@ -3,7 +3,6 @@
 // They are used to initialise the Twitter API interface.
 
 const nConf = require('nconf');
-const Twit = require('twit');
 
 nConf.env()
     .argv(require('yargs')
@@ -19,6 +18,6 @@ const twitterKeys = {
     consumer_secret: nConf.get("TWITTER_CONSUMER_SECRET"),
     access_token: nConf.get("TWITTER_ACCESS_TOKEN"),
     access_token_secret: nConf.get("TWITTER_ACCESS_TOKEN_SECRET")
-};
+}
 
-module.exports = new Twit(twitterKeys);
+module.exports = twitterKeys;

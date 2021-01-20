@@ -18,7 +18,7 @@ function getRandomName() {
     return dinoName.charAt(0).toUpperCase() + dinoName.slice(1);
 }
 
-function tweetDinosaur(redirectTo) {
+function tweetDinosaur(twitterAPI, redirectTo) {
     let dinoName;
     if (redirectTo) {
         dinoName = redirectTo;
@@ -46,7 +46,7 @@ function tweetDinosaur(redirectTo) {
         })
         .catch((error) => {
             if (error instanceof wikipedia.RedirectError) {
-                tweetDinosaur(error.redirectTo);
+                tweetDinosaur(twitterAPI, error.redirectTo);
             } else {
                 winston.error("Unable to retrieve Wikipedia details: " + error.message);
             }

@@ -9,10 +9,14 @@ nConf.env()
         .help()
         .version()
         .usage("Usage: $0 [options]")
-        .options({"quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean", default: "false" }}))
+        .options({
+            "dinosaur": { alias: "d", describe: "Run for the specified dinosaur", type: "string" },
+            "quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean", default: "false" }
+        }))
     .file({ file: 'app/config.json' });
 
 const options = {
+    dinosaur: nConf.get("dinosaur"),
     quiet: nConf.get("quiet")
 }
 

@@ -1,6 +1,6 @@
 const winston = require('./winston.js');
 
-async function verifyCredentials(twitterAPI) {
+function verifyCredentials(twitterAPI) {
     let parameters = {
         include_entities: false,
         skip_status: true,
@@ -18,7 +18,7 @@ async function verifyCredentials(twitterAPI) {
 }
 
 function tweet(twitterAPI, update) {
-    twitterAPI.post('statuses/update', { status: update })
+    return twitterAPI.post('statuses/update', { status: update })
         .then((data) => {
             winston.debug(JSON.stringify(data));
             winston.info("Tweeted: " + update);

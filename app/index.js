@@ -4,20 +4,20 @@ const winston = require('./winston.js');
 const tweetService = require('./tweet.js');
 const dinoService = require('./dinosaur.js');
 
-winston.info("Booting dinosauria bot...");
-
-async function main() {
+function main() {
+    winston.info("Booting dinosauria bot...");
     let twitterAPI = new Twit(twitterKeys);
-    await tweetService.verifyCredentials(twitterAPI);
-    dinoService.prepareTweet()
-        .then((tweet) => {
-            winston.debug("Prepared tweet(" + tweet.length + "):\n" + tweet);
-            tweetService.tweet(twitterAPI, tweet);
+    tweetService.verifyCredentials(twitterAPI)
+        .then(() => {
+            dinoService.prepareTweet()
+                .then((tweet) => {
+                    winston.debug("Prepared tweet(" + tweet.length + "):\n" + tweet);
+                    tweetService.tweet(twitterAPI, tweet);
+                })
+                .finally(() => {
+                    winston.info("Shutting down dionsauria bot.");
+                });
         });
 }
 
-main()
-    .finally(() => {
-        winston.info("Shutting down dionsauria bot.");
-    }
-);
+main();

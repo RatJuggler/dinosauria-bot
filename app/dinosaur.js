@@ -17,15 +17,7 @@ function getRandomName() {
     return dinoName.charAt(0).toUpperCase() + dinoName.slice(1);
 }
 
-function prepareTweet(redirectTo) {
-    let dinoName;
-    if (redirectTo) {
-        dinoName = redirectTo;
-        logger.debug("Redirected to: " + dinoName);
-    } else {
-        dinoName = getRandomName();
-        logger.debug("Selected random name: " + dinoName);
-    }
+function prepareTweet(dinoName) {
     const wikiURL = encodeURI(WIKI_URL + dinoName);
     logger.debug("Wiki URL: " + wikiURL);
     const wikiAPI = encodeURI(WIKI_API + dinoName);
@@ -39,9 +31,12 @@ function prepareTweet(redirectTo) {
             return dinoText + '\n' + wikiURL + DINO_OF_THE_DAY;
         })
         .catch((error) => {
-            if (error instanceof wikipedia.RedirectError) return prepareTweet(error.redirectTo);
+            if (error instanceof wikipedia.RedirectError) {
+                logger.debug("Redirecting to: " + error.redirectTo);
+                return prepareTweet(error.redirectTo);
+            }
             logger.error("Unable to retrieve Wikipedia details: " + error.message);
         });
 }
 
-module.exports.prepareTweet = prepareTweet;
+module.exports = { getRandomName, prepareTweet };

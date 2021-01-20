@@ -7,10 +7,18 @@ const dinoService = require('./dinosaur.js');
 
 function main() {
     logger.info("Booting dinosauria bot...");
+    let forDinosaur;
+    if (config.options.dinosaur) {
+        forDinosaur = config.options.dinosaur;
+        logger.info("Using supplied name: " + forDinosaur);
+    } else {
+        forDinosaur = dinoService.getRandomName();
+        logger.info("Selected random name: " + forDinosaur);
+    }
     let twitterAPI = config.options.quiet ? new NoTwit(logger) : new Twit(config.twitterKeys);
     tweetService.verifyCredentials(twitterAPI)
         .then(() => {
-            return dinoService.prepareTweet();
+            return dinoService.prepareTweet(forDinosaur);
         })
         .then((preparedTweet) => {
             logger.debug("Prepared tweet (" + preparedTweet.length + " characters):\n" + preparedTweet);

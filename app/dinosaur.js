@@ -35,13 +35,11 @@ function prepareTweet(redirectTo) {
             // Twitter shortens links to 23 characters.
             const textSize = TWEET_LENGTH - 23 - DINO_OF_THE_DAY.length - 1;
             let dinoText = wikipedia.findSomeText(result.body, textSize);
-            if (!dinoText) {dinoText = dinoName;}
+            if (!dinoText) dinoText = dinoName;
             return dinoText + '\n' + wikiURL + DINO_OF_THE_DAY;
         })
         .catch((error) => {
-            if (error instanceof wikipedia.RedirectError) {
-                return prepareTweet(error.redirectTo);
-            }
+            if (error instanceof wikipedia.RedirectError) return prepareTweet(error.redirectTo);
             winston.error("Unable to retrieve Wikipedia details: " + error.message);
         });
 }

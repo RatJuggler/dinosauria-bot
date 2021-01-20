@@ -1,11 +1,18 @@
-// Load the Twitter API keys from environment variables, the command line or a file and initialise the API interface.
+// Define the command line options and load the Twitter API keys.
+// The keys can be loaded from environment variables or the command line but are best loaded from a file.
+// They are used to initialise the Twitter API interface.
 
 const nConf = require('nconf');
 const Twit = require('twit');
 
 nConf.env()
-    .argv()
+    .argv(require('yargs')
+        .help()
+        .version()
+        .usage("Usage: $0 [options]")
+        .options({"quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean", default: "false" }}))
     .file({ file: 'app/config.json' });
+
 
 const twitterKeys = {
     consumer_key: nConf.get("TWITTER_CONSUMER_KEY"),

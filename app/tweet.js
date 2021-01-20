@@ -25,7 +25,7 @@ function tweet(twitterAPI, update) {
         })
         .catch((error) => {
             winston.error(error.code + ' : ' + error.message);
-            throw new Error("Unable to verify Twitter credentials!");
+            throw new Error("Unable to Tweet!");
         });
 }
 

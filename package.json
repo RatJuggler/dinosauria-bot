@@ -10,7 +10,6 @@
   "license": "MIT",
   "main": "app/dinosauria-bot.js",
   "scripts": {
-    "pack": "npm pack",
     "start": "node app/dinosauria-bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

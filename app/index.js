@@ -11,9 +11,9 @@ function main() {
         .then(() => {
             return dinoService.prepareTweet();
         })
-        .then((tweet) => {
-            winston.debug("Prepared tweet(" + tweet.length + "):\n" + tweet);
-            tweetService.tweet(twitterAPI, tweet);
+        .then((preparedTweet) => {
+            winston.debug("Prepared tweet(" + preparedTweet.length + "):\n" + preparedTweet);
+            tweetService.tweet(twitterAPI, preparedTweet);
         })
         .finally(() => {
             winston.info("Shutting down dionsauria bot.");

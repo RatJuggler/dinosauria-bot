@@ -11,7 +11,7 @@ nConf.env()
         .usage("Usage: $0 [options]")
         .options({
             "dinosaur": { alias: "d", describe: "Run for the specified dinosaur", type: "string" },
-            "quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean", default: "false" }
+            "quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean" }
         }))
     .file({ file: 'app/config.json' });
 

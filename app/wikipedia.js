@@ -104,8 +104,10 @@ function findSomeText(body, textSize) {
     wikiText = wikiText.replace(/<references.*?\/.*?>/gi, '');
     wikiText = wikiText.replace(/<ref.*?\/.*?>/gi, '');
     winston.debug("Removed references:\n" + wikiText);
-    wikiText = removeBraceSections(wikiText, '[', '[', ']');
-    winston.debug("Removed [] sections:\n" + wikiText);
+    if (wikiText.startsWith('[')) {
+        wikiText = removeBrace(wikiText, 0, '[', ']');
+        winston.debug("Removed initial [] section:\n" + wikiText);
+    }
     wikiText = removePageNames(wikiText);
     winston.debug("Removed page names:\n" + wikiText);
     wikiText = stripUnwanted(wikiText);

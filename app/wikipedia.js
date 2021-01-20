@@ -1,4 +1,4 @@
-const logger = require('./winston.js');
+const logger = require('./logger.js');
 
 class RedirectError extends Error {
     constructor(redirectTo, ...params) {

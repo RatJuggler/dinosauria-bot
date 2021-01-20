@@ -1,4 +1,4 @@
-const logger = require('./winston.js');
+const logger = require('./logger.js');
 const request = require('./request.js');
 const dinosaurs = [].concat(require('dinosaurs'));  // Force type of dinosaurs array.
 const wikipedia = require('./wikipedia');

@@ -12,6 +12,9 @@ nConf.env()
         .options({"quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean", default: "false" }}))
     .file({ file: 'app/config.json' });
 
+const options = {
+    quiet: nConf.get("quiet")
+}
 
 const twitterKeys = {
     consumer_key: nConf.get("TWITTER_CONSUMER_KEY"),
@@ -20,4 +23,4 @@ const twitterKeys = {
     access_token_secret: nConf.get("TWITTER_ACCESS_TOKEN_SECRET")
 }
 
-module.exports = twitterKeys;
+module.exports = { options, twitterKeys };

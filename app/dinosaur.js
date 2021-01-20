@@ -1,7 +1,6 @@
 const winston = require('./winston.js');
 const request = require('./request.js');
 const dinosaurs = [].concat(require('dinosaurs'));  // Force type of dinosaurs array.
-const tweetService = require('./tweet.js');
 const wikipedia = require('./wikipedia');
 
 const TWEET_LENGTH = 280;
@@ -18,7 +17,7 @@ function getRandomName() {
     return dinoName.charAt(0).toUpperCase() + dinoName.slice(1);
 }
 
-function tweetDinosaur(twitterAPI, redirectTo) {
+function prepareTweet(redirectTo) {
     let dinoName;
     if (redirectTo) {
         dinoName = redirectTo;
@@ -31,26 +30,20 @@ function tweetDinosaur(twitterAPI, redirectTo) {
     winston.debug("Wiki URL: " + wikiURL);
     const wikiAPI = encodeURI(WIKI_API + dinoName);
     winston.debug("Wiki API: " + wikiAPI);
-    request.get(wikiAPI)
+    return request.get(wikiAPI)
         .then((result) => {
             // Twitter shortens links to 23 characters.
             const textSize = TWEET_LENGTH - 23 - DINO_OF_THE_DAY.length - 1;
             let dinoText = wikipedia.findSomeText(result.body, textSize);
             if (!dinoText) {dinoText = dinoName;}
-            let tweet = dinoText + '\n' + wikiURL + DINO_OF_THE_DAY;
-            winston.debug("Prepared tweet(" + tweet.length + "):\n" + tweet);
-            return tweet;
-        })
-        .then((tweet) => {
-            tweetService.tweet(tweet);
+            return dinoText + '\n' + wikiURL + DINO_OF_THE_DAY;
         })
         .catch((error) => {
             if (error instanceof wikipedia.RedirectError) {
-                tweetDinosaur(twitterAPI, error.redirectTo);
-            } else {
-                winston.error("Unable to retrieve Wikipedia details: " + error.message);
+                return prepareTweet(error.redirectTo);
             }
+            winston.error("Unable to retrieve Wikipedia details: " + error.message);
         });
 }
 
-module.exports.tweetDinosaur = tweetDinosaur;
+module.exports.prepareTweet = prepareTweet;

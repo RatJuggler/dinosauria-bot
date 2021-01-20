@@ -29,5 +29,4 @@ function tweet(twitterAPI, update) {
         });
 }
 
-module.exports.tweet = tweet;
-module.exports.verifyCredentials = verifyCredentials;
+module.exports = { tweet, verifyCredentials };

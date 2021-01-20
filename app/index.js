@@ -9,14 +9,14 @@ function main() {
     let twitterAPI = new Twit(twitterKeys);
     tweetService.verifyCredentials(twitterAPI)
         .then(() => {
-            dinoService.prepareTweet()
-                .then((tweet) => {
-                    winston.debug("Prepared tweet(" + tweet.length + "):\n" + tweet);
-                    tweetService.tweet(twitterAPI, tweet);
-                })
-                .finally(() => {
-                    winston.info("Shutting down dionsauria bot.");
-                });
+            return dinoService.prepareTweet();
+        })
+        .then((tweet) => {
+            winston.debug("Prepared tweet(" + tweet.length + "):\n" + tweet);
+            tweetService.tweet(twitterAPI, tweet);
+        })
+        .finally(() => {
+            winston.info("Shutting down dionsauria bot.");
         });
 }
 

@@ -1,4 +1,4 @@
-const winston = require('./winston.js');
+const logger = require('./winston.js');
 
 class RedirectError extends Error {
     constructor(redirectTo, ...params) {
@@ -48,7 +48,7 @@ function removePageNames(markup) {
                 let linkText = findLinkText[0];
                 linkText = linkText.slice(1, linkText.length - 1);
                 markup = markup.replace(link, linkText);
-                winston.debug("Replace link: " + link + ' => ' + linkText);
+                logger.debug("Replace link: " + link + ' => ' + linkText);
             }
         }
     });
@@ -60,11 +60,11 @@ function stripUnwanted(markup) {
     markup = markup.replace(/''''/gi, '');
     markup = markup.replace(/'''/gi, '');
     markup = markup.replace(/''/gi, '');
-    winston.debug("Removed bold/italic:\n" + markup);
+    logger.debug("Removed bold/italic:\n" + markup);
     markup = markup.replace(/\[\[|]]/gi, '');
-    winston.debug("Removed all double square brackets:\n" + markup);
+    logger.debug("Removed all double square brackets:\n" + markup);
     markup = markup.replace(/&nbsp;/gi, ' ');
-    winston.debug("Removed &nbsp;:\n" + markup);
+    logger.debug("Removed &nbsp;:\n" + markup);
     return markup;
 }
 
@@ -74,7 +74,7 @@ function fixFormat(markup) {
     markup = markup.replace(/ , /gi, ', ');
     markup = markup.replace(/ \/ /gi, ' ');
     markup = markup.replace(/ \( ?\) /gi, ' ');
-    winston.debug("Fixed format:\n" + markup);
+    logger.debug("Fixed format:\n" + markup);
     return markup;
 }
 
@@ -82,34 +82,34 @@ function findSomeText(body, textSize) {
     let wikiText = JSON.parse(body).parse['wikitext']['*'];
     // Replace all newlines with spaces to help with parsing.
     wikiText = wikiText.replace(/\n/gi, ' ');
-    winston.debug("From Wikipedia (length: " + wikiText.length + ")\n"+ wikiText);
+    logger.debug("From Wikipedia (length: " + wikiText.length + ")\n"+ wikiText);
     if (wikiText.includes('#redirect') || wikiText.includes('#REDIRECT')) {
         let redirectTo = String(wikiText.match(/\[\[.*?]]/));
         redirectTo = redirectTo.replace(/\[\[|]]/gi, '');
-        winston.info("Redirecting to: " + redirectTo);
+        logger.info("Redirecting to: " + redirectTo);
         throw new RedirectError(redirectTo);
     }
     if (wikiText.length > 4096) {
         wikiText = wikiText.slice(0, 4096);
-        winston.debug("Only use the first 4K of text:\n" + wikiText);
+        logger.debug("Only use the first 4K of text:\n" + wikiText);
     }
     wikiText = removeBraceSections(wikiText, '{', '{','}');
-    winston.debug("Removed {} sections:\n" + wikiText);
+    logger.debug("Removed {} sections:\n" + wikiText);
     wikiText = removeBraceSections(wikiText, '[[File:', '[[', ']]');
-    winston.debug("Removed file links:\n" + wikiText);
+    logger.debug("Removed file links:\n" + wikiText);
     wikiText = removeBraceSections(wikiText,'<!--', '<!--', '-->');
-    winston.debug("Removed comments:\n" + wikiText);
+    logger.debug("Removed comments:\n" + wikiText);
     wikiText = removeBraceSections(wikiText,'== ', '== ', ' ==');
-    winston.debug("Removed section headers:\n" + wikiText);
+    logger.debug("Removed section headers:\n" + wikiText);
     wikiText = wikiText.replace(/<references.*?\/.*?>/gi, '');
     wikiText = wikiText.replace(/<ref.*?\/.*?>/gi, '');
-    winston.debug("Removed references:\n" + wikiText);
+    logger.debug("Removed references:\n" + wikiText);
     if (wikiText.startsWith('[')) {
         wikiText = removeBrace(wikiText, 0, '[', ']');
-        winston.debug("Removed initial [] section:\n" + wikiText);
+        logger.debug("Removed initial [] section:\n" + wikiText);
     }
     wikiText = removePageNames(wikiText);
-    winston.debug("Removed page names:\n" + wikiText);
+    logger.debug("Removed page names:\n" + wikiText);
     wikiText = stripUnwanted(wikiText);
     wikiText = fixFormat(wikiText);
     wikiText = String(wikiText).trim();
@@ -124,10 +124,10 @@ function findSomeText(body, textSize) {
         }
         finalText += sentence;
     }
-    winston.debug("Final Text:\n" + finalText);
+    logger.debug("Final Text:\n" + finalText);
     if (finalText.length > textSize) {
         finalText = finalText.slice(0, textSize-3) + '...';
-        winston.debug("Resize to fit:\n" + finalText);
+        logger.debug("Resize to fit:\n" + finalText);
     }
     return finalText;
 }

@@ -1,4 +1,4 @@
-const winston = require('./winston.js');
+const logger = require('./winston.js');
 const request = require('./request.js');
 const dinosaurs = [].concat(require('dinosaurs'));  // Force type of dinosaurs array.
 const wikipedia = require('./wikipedia');
@@ -21,15 +21,15 @@ function prepareTweet(redirectTo) {
     let dinoName;
     if (redirectTo) {
         dinoName = redirectTo;
-        winston.debug("Redirected to: " + dinoName);
+        logger.debug("Redirected to: " + dinoName);
     } else {
         dinoName = getRandomName();
-        winston.debug("Selected random name: " + dinoName);
+        logger.debug("Selected random name: " + dinoName);
     }
     const wikiURL = encodeURI(WIKI_URL + dinoName);
-    winston.debug("Wiki URL: " + wikiURL);
+    logger.debug("Wiki URL: " + wikiURL);
     const wikiAPI = encodeURI(WIKI_API + dinoName);
-    winston.debug("Wiki API: " + wikiAPI);
+    logger.debug("Wiki API: " + wikiAPI);
     return request.get(wikiAPI)
         .then((result) => {
             // Twitter shortens links to 23 characters.
@@ -40,7 +40,7 @@ function prepareTweet(redirectTo) {
         })
         .catch((error) => {
             if (error instanceof wikipedia.RedirectError) return prepareTweet(error.redirectTo);
-            winston.error("Unable to retrieve Wikipedia details: " + error.message);
+            logger.error("Unable to retrieve Wikipedia details: " + error.message);
         });
 }
 

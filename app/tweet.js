@@ -1,4 +1,4 @@
-const winston = require('./winston.js');
+const logger = require('./winston.js');
 
 function verifyCredentials(twitterAPI) {
     let parameters = {
@@ -8,11 +8,10 @@ function verifyCredentials(twitterAPI) {
     };
     return twitterAPI.get('account/verify_credentials', parameters)
         .then((data) => {
-            winston.debug(JSON.stringify(data));
-            winston.info("Twitter credentials verified.");
+            logger.info("Twitter credentials verified.");
         })
         .catch((error) => {
-            winston.error(error.code + ' : ' + error.message);
+            logger.error(error.code + ' : ' + error.message);
             throw new Error("Unable to verify Twitter credentials!");
         });
 }
@@ -20,11 +19,10 @@ function verifyCredentials(twitterAPI) {
 function tweet(twitterAPI, update) {
     return twitterAPI.post('statuses/update', { status: update })
         .then((data) => {
-            winston.debug(JSON.stringify(data));
-            winston.info("Tweeted: " + update);
+            logger.info("Tweeted: " + update);
         })
         .catch((error) => {
-            winston.error(error.code + ' : ' + error.message);
+            logger.error(error.code + ' : ' + error.message);
             throw new Error("Unable to Tweet!");
         });
 }

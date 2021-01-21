@@ -11,7 +11,7 @@ nConf.env()
         .usage("Usage: $0 [options]")
         .options({
             "dinosaur": { alias: "d", describe: "Run for the specified dinosaur", type: "string" },
-            "loglevel": { alias: "l", describe: "Set the logging level", choices: ["DEBUG", "INFO", "ERROR"], default: "INFO" },
+            "loglevel": { alias: "l", describe: "Set the logging level", choices: ["debug", "info", "error"], default: "info" },
             "quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean" }
         }))
     .file({ file: 'app/config.json' });

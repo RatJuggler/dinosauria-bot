@@ -8,16 +8,21 @@ const logFormat = winston.format.combine(
     })
 );
 
-// Instantiate and export a logger.
+const transports = {
+    console: new winston.transports.Console({ handleExceptions: true })
+}
+
 const logger = new winston.createLogger({
-    level: "debug",
     format: logFormat,
     transports: [
-        new winston.transports.Console({
-            handleExceptions: true
-        })
+        transports.console
     ],
     exitOnError: false
 });
+
+
+logger.setLogLevel = (newLevel) => {
+    transports.console.level = newLevel;
+}
 
 module.exports = logger;

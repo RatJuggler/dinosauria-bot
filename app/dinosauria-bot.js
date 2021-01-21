@@ -6,6 +6,7 @@ const tweetService = require('./tweet.js');
 const dinoService = require('./dinosaur.js');
 
 function main() {
+    logger.setLogLevel(config.options.loglevel);
     logger.info("Booting dinosauria bot...");
     let forDinosaur;
     if (config.options.dinosaur) {

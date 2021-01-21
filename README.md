@@ -1,8 +1,8 @@
 # dinosauria-bot
 
-This bot currently tweets a "Dinosaur of the Day Twitter" under the handle [@dinosauria_bot](https://twitter.com/dinosauria_bot).
+This bot tweets a #DinosaurOfTheDay under the handle [@dinosauria_bot](https://twitter.com/dinosauria_bot).
 
-It tweets a random dinosaur name with some additional text pulled from its Wikipedia page and a link to that page.
+It tweets a random dinosaur name with some additional text pulled from the dinosaurs Wikipedia page and a link to that page.
 
 Scraping the text from Wikipedia proved to be way harder than I imagined (see the comments on the 
 [wtf_wikipeda](https://github.com/spencermountain/wtf_wikipedia) page for an idea of why). It now makes a reasonable attempt at 
@@ -10,7 +10,7 @@ extracting something meaningful from the first sentence using a hodgepodge of re
 
 ## Install / Run
 
-Assuming you already have NodeJS/npm installed you can check out the source code from here:
+Assuming you already have Node.js/npm installed you can check out the source code from here:
 ```
 $ git clone https://github.com/RatJuggler/dinosauria-bot.git
 $ cd dinosauria-bot
@@ -29,6 +29,8 @@ Options:
       --help      Show help                                            [boolean]
       --version   Show version number                                  [boolean]
   -d, --dinosaur  Run for the specified dinosaur                        [string]
+  -l, --loglevel  Set the logging level
+                           [choices: "debug", "info", "error"] [default: "info"]
   -q, --quiet     Run without invoking the Twitter API                 [boolean]
 ```
 You can use the `-q` option to run without using the Twitter API but to make it fully functional you will need to set up a Twitter
@@ -54,7 +56,7 @@ Edit the new file and add your keys:
   "TWITTER_ACCESS_TOKEN_SECRET": "<your access token secret here>"
 }
 ```
-As the bot is really only meant to tweet once a day it will send a tweet then exit immediately. I'm running it daily with a Cron 
+As the bot is really only meant to tweet once a day it will send a tweet then immediately exit. I'm running it daily with a Cron 
 job so that it's not sat there idling for the rest of the time.
 
 ## Addendum

@@ -24,8 +24,7 @@
     "dinosaurs": "^1.2.1",
     "nconf": "^0.11.1",
     "twit": "^2.2.11",
-    "winston": "^3.3.3",
-    "yargs": "^16.2.0"
+    "winston": "^3.3.3"
   },
   "engines": {
     "node": ">=8.0.0"

@@ -11,12 +11,14 @@ nConf.env()
         .usage("Usage: $0 [options]")
         .options({
             "dinosaur": { alias: "d", describe: "Run for the specified dinosaur", type: "string" },
+            "loglevel": { alias: "l", describe: "Set the logging level", choices: ["DEBUG", "INFO", "ERROR"], default: "INFO" },
             "quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean" }
         }))
     .file({ file: 'app/config.json' });
 
 const options = {
     dinosaur: nConf.get("dinosaur"),
+    loglevel: nConf.get("loglevel"),
     quiet: nConf.get("quiet")
 }
 

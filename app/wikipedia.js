@@ -108,10 +108,6 @@ function findSomeText(body, textSize) {
     wikiText = wikiText.replace(/<references.*?\/.*?>/gi, '');
     wikiText = wikiText.replace(/<ref.*?\/.*?>/gi, '');
     logForDebug("Removed references", wikiText);
-    if (wikiText.startsWith('[')) {
-        wikiText = removeBrace(wikiText, 0, '[', ']');
-        logForDebug("Removed initial [] section", wikiText);
-    }
     wikiText = removePageNames(wikiText);
     logForDebug("Removed page names", wikiText);
     wikiText = stripUnwanted(wikiText);

@@ -22,7 +22,6 @@ function main() {
             return dinoService.prepareTweet(forDinosaur);
         })
         .then((preparedTweet) => {
-            logger.debug("Prepared tweet (" + preparedTweet.length + " characters):\n" + preparedTweet);
             tweetService.tweet(twitterAPI, preparedTweet);
         })
         .finally(() => {

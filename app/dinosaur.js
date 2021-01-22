@@ -35,7 +35,7 @@ function prepareTweet(dinoName) {
                 logger.debug("Redirecting to: " + error.redirectTo);
                 return prepareTweet(error.redirectTo);
             }
-            logger.error("Unable to retrieve Wikipedia details: " + error.message);
+            throw new Error("Unable to retrieve Wikipedia details: " + error.message);
         });
 }
 

@@ -78,11 +78,15 @@ function fixFormat(markup) {
     return markup;
 }
 
+function logForDebug(message, wikiText) {
+    logger.debug(message + " (length: " + wikiText.length + "):\n"+ wikiText);
+}
+
 function findSomeText(body, textSize) {
     let wikiText = JSON.parse(body).parse['wikitext']['*'];
     // Replace all newlines with spaces to help with parsing.
     wikiText = wikiText.replace(/\n/gi, ' ');
-    logger.debug("From Wikipedia (length: " + wikiText.length + ")\n"+ wikiText);
+    logForDebug("Initial text from Wikipedia", wikiText);
     if (wikiText.includes('#redirect') || wikiText.includes('#REDIRECT')) {
         let redirectTo = String(wikiText.match(/\[\[.*?]]/));
         redirectTo = redirectTo.replace(/\[\[|]]/gi, '');
@@ -91,25 +95,25 @@ function findSomeText(body, textSize) {
     }
     if (wikiText.length > 4096) {
         wikiText = wikiText.slice(0, 4096);
-        logger.debug("Only use the first 4K of text:\n" + wikiText);
+        logForDebug("Only use the first 4K of text", wikiText);
     }
     wikiText = removeBraceSections(wikiText, '{', '{','}');
-    logger.debug("Removed {} sections:\n" + wikiText);
+    logForDebug("Removed {} sections", wikiText);
     wikiText = removeBraceSections(wikiText, '[[File:', '[[', ']]');
-    logger.debug("Removed file links:\n" + wikiText);
+    logForDebug("Removed file links", wikiText);
     wikiText = removeBraceSections(wikiText,'<!--', '<!--', '-->');
-    logger.debug("Removed comments:\n" + wikiText);
+    logForDebug("Removed comments", wikiText);
     wikiText = removeBraceSections(wikiText,'== ', '== ', ' ==');
-    logger.debug("Removed section headers:\n" + wikiText);
+    logForDebug("Removed section headers", wikiText);
     wikiText = wikiText.replace(/<references.*?\/.*?>/gi, '');
     wikiText = wikiText.replace(/<ref.*?\/.*?>/gi, '');
-    logger.debug("Removed references:\n" + wikiText);
+    logForDebug("Removed references", wikiText);
     if (wikiText.startsWith('[')) {
         wikiText = removeBrace(wikiText, 0, '[', ']');
-        logger.debug("Removed initial [] section:\n" + wikiText);
+        logForDebug("Removed initial [] section", wikiText);
     }
     wikiText = removePageNames(wikiText);
-    logger.debug("Removed page names:\n" + wikiText);
+    logForDebug("Removed page names", wikiText);
     wikiText = stripUnwanted(wikiText);
     wikiText = fixFormat(wikiText);
     wikiText = String(wikiText).trim();
@@ -124,10 +128,10 @@ function findSomeText(body, textSize) {
         }
         finalText += sentence;
     }
-    logger.debug("Final Text (" + finalText.length + " characters):\n" + finalText);
+    logForDebug("Final Text", wikiText);
     if (finalText.length > textSize) {
         finalText = finalText.slice(0, textSize-3) + '...';
-        logger.debug("Resize to fit (" + finalText.length + " characters):\n" + finalText);
+        logForDebug("Resize to fit", wikiText);
     }
     return finalText;
 }

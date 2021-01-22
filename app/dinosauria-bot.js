@@ -1,6 +1,6 @@
 const config = require('./config.js')
 const Twit = require('twit');
-const { NoTwit } = require("./notwit");
+const NoTwit = require("./notwit");
 const logger = require('./logger.js');
 const tweetService = require('./tweet.js');
 const dinoService = require('./dinosaur.js');

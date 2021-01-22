@@ -15,4 +15,4 @@ class NoTwit {
     }
 }
 
-module.exports = { NoTwit: NoTwit };
+module.exports = NoTwit;

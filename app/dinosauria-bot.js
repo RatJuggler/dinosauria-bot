@@ -18,15 +18,9 @@ function main() {
     }
     let twitterAPI = config.options.quiet ? new NoTwit(logger) : new Twit(config.twitterKeys);
     tweetService.verifyCredentials(twitterAPI)
-        .then(() => {
-            return dinoService.prepareTweet(forDinosaur);
-        })
-        .then((preparedTweet) => {
-            tweetService.tweet(twitterAPI, preparedTweet);
-        })
-        .finally(() => {
-            logger.info("Shutting down dionsauria bot.");
-        });
+        .then(_ => dinoService.prepareTweet(forDinosaur))
+        .then(preparedTweet => tweetService.tweet(twitterAPI, preparedTweet))
+        .finally(_ => logger.info("Shutting down dionsauria bot."));
 }
 
 main();

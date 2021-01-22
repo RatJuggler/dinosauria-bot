@@ -32,9 +32,7 @@ function prepareTweet(dinoName) {
     const wikiAPI = encodeURI(WIKI_API + dinoName);
     logger.debug("Wiki API call to: " + wikiAPI);
     return request.get(wikiAPI)
-        .then((response) => {
-            return buildTweet(dinoName, response.body);
-        })
+        .then(response => buildTweet(dinoName, response.body))
         .catch((error) => {
             if (error instanceof wikipedia.RedirectError) {
                 logger.debug("Redirecting to: " + error.redirectTo);

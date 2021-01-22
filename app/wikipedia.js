@@ -124,10 +124,10 @@ function findSomeText(body, textSize) {
         }
         finalText += sentence;
     }
-    logger.debug("Final Text:\n" + finalText);
+    logger.debug("Final Text (" + finalText.length + " characters):\n" + finalText);
     if (finalText.length > textSize) {
         finalText = finalText.slice(0, textSize-3) + '...';
-        logger.debug("Resize to fit:\n" + finalText);
+        logger.debug("Resize to fit (" + finalText.length + " characters):\n" + finalText);
     }
     return finalText;
 }

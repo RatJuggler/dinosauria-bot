@@ -1,13 +1,15 @@
 const logger = require('./logger.js');
+const BaseTwit = require('twit');
 
-function verifyCredentials(twitterAPI) {
+BaseTwit.prototype.verifyCredentials = function () {
     let parameters = {
         include_entities: false,
         skip_status: true,
         include_email: true
     };
-    return twitterAPI.get('account/verify_credentials', parameters)
+    return this.get('account/verify_credentials', parameters)
         .then((data) => {
+            logger.debug(data);
             logger.info("Twitter credentials verified.");
         })
         .catch((error) => {
@@ -16,9 +18,10 @@ function verifyCredentials(twitterAPI) {
         });
 }
 
-function tweet(twitterAPI, update) {
-    return twitterAPI.post('statuses/update', { status: update })
+BaseTwit.prototype.tweet = function (update) {
+    return this.post('statuses/update', { status: update })
         .then((data) => {
+            logger.debug(data);
             logger.info("Tweeted: " + update);
         })
         .catch((error) => {
@@ -27,4 +30,4 @@ function tweet(twitterAPI, update) {
         });
 }
 
-module.exports = { tweet, verifyCredentials };
+module.exports = BaseTwit;

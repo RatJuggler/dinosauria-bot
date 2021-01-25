@@ -1,8 +1,7 @@
 const config = require('./config.js')
-const Twit = require('twit');
-const NoTwit = require("./notwit");
+const NoTwit = require("./notwit.js");
+const Twit = require('./tweet.js');
 const logger = require('./logger.js');
-const tweetService = require('./tweet.js');
 const dinoService = require('./dinosaur.js');
 
 function main() {
@@ -16,11 +15,11 @@ function main() {
         forDinosaur = dinoService.getRandomName();
         logger.info("Selected random name: " + forDinosaur);
     }
-    let twitterAPI = config.options.quiet ? new NoTwit(logger) : new Twit(config.twitterKeys);
-    tweetService.verifyCredentials(twitterAPI)
+    let twitterAPI = config.options.quiet ? new NoTwit() : new Twit(config.twitterKeys);
+    twitterAPI.verifyCredentials()
         .then(_ => dinoService.prepareTweet(forDinosaur))
-        .then(preparedTweet => tweetService.tweet(twitterAPI, preparedTweet))
-        .finally(_ => logger.info("Shutting down dionsauria bot."));
+        .then(preparedTweet => twitterAPI.tweet(preparedTweet))
+        .finally(() => logger.info("Shutting down dionsauria bot."));
 }
 
 main();

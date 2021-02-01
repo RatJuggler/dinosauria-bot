@@ -22,7 +22,7 @@ BaseTwit.prototype.tweet = function (update) {
     return this.post('statuses/update', { status: update })
         .then((data) => {
             logger.debug(data);
-            logger.info("Tweeted: " + update);
+            logger.info("Tweet sent!");
         })
         .catch((error) => {
             logger.error(error.code + ' : ' + error.message);

@@ -24,7 +24,7 @@ function buildTweet(dinoName, wikiResult) {
     let dinoText = wikipedia.findSomeText(wikiResult, textSize);
     if (!dinoText) dinoText = dinoName;
     let preparedTweet = dinoText + '\n' + wikiURL + DINO_OF_THE_DAY;
-    logger.debug("Prepared tweet (" + (preparedTweet.length - wikiURL.length + 23) + " characters):\n" + preparedTweet);
+    logger.info("Prepared tweet (" + (preparedTweet.length - wikiURL.length + 23) + " characters):\n" + preparedTweet);
     return preparedTweet;
 }
 

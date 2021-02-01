@@ -33,9 +33,9 @@ Options:
                            [choices: "debug", "info", "error"] [default: "info"]
   -q, --quiet     Run without invoking the Twitter API                 [boolean]
 ```
-You can use the `-q` option to run without using the Twitter API but to make it fully functional you will need to set up a Twitter
-account and apply for access [here](https://developer.twitter.com/en/apply-for-access). You'll then need to make the following
-tokens available to run it:
+To see it working you can use the `-q` option to run without using the Twitter API but to make it fully functional you will need to 
+set up a Twitter account and apply for access [here](https://developer.twitter.com/en/apply-for-access). You'll then need to make 
+the following tokens available to run it:
 ```
 TWITTER_CONSUMER_KEY
 TWITTER_CONSUMER_SECRET
@@ -58,6 +58,18 @@ Edit the new file and add your keys:
 ```
 As the bot is really only meant to tweet once a day it will send a tweet then immediately exit. I'm running it daily with a Cron 
 job so that it's not sat there idling for the rest of the time.
+
+## Docker
+
+There is also a docker build file which creates a standalone image to run the bot once a day.
+
+Create the image with: `docker build -f docker/Dockerfile -t dinosauria-bot .`
+
+We need to be careful that any Twitter access keys aren't included in the image in case it is pushed to a public repository (and
+it's also just best practice). There are a number of ways to inject the keys into the image but probably the easiest is to create 
+an `env.list` file from the supplied template, set the keys in it and then run the image with the `--env-file` option.
+
+    docker run dinosauria-bot -d --env-file ./env.list
 
 ## Addendum
 

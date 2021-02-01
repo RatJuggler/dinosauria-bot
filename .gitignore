@@ -1,11 +1,4 @@
-# WebStorm IDE
 .idea/*
-
-# Ignore code pulled from node_modules
 /node_modules/
-
-# Ignore environment secrets
 /app/config.json
-
-# Ignore distribution tarballs
-/dinosauria-bot-*.tgz
+**/env.list

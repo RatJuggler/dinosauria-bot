@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  dinosauria-bot:
+    image: ${dockerId:-johnchase}/dinosauria-bot:${BUILD_TAG:-local}
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: dinosauria-bot
+    env_file:
+      - ./docker/env.list
+    restart: unless-stopped

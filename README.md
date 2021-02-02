@@ -61,15 +61,19 @@ job so that it's not sat there idling for the rest of the time.
 
 ## Docker
 
-There is also a docker build file which creates a standalone image to run the bot once a day.
+Docker build and compose files are available which create a standalone image to run the bot once a day.
 
-Create the image with: `docker build -f docker/Dockerfile -t dinosauria-bot .`
+Create the image with: `docker build -f docker/Dockerfile -t dinosauria-bot:local .`
 
 We need to be careful that any Twitter access keys aren't included in the image in case it is pushed to a public repository (and
 it's also just best practice). There are a number of ways to inject the keys into the image but probably the easiest is to create 
 an `env.list` file from the supplied template, set the keys in it and then run the image with the `--env-file` option.
 
-    docker run dinosauria-bot -d --env-file ./env.list
+    docker run dinosauria-bot:local -d --env-file ./docker/env.list
+
+Or just use the compose file to do everything:
+
+    docker-compose up -d
 
 ## Addendum
 
@@ -82,7 +86,6 @@ own code.
 Packages I chose not to use:
 
 - `random`
-- `request`
-- `request-promise-native`
+- `request` / `got`
 - `url-exists`
 - `wtf-wikipedia`

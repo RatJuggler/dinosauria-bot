@@ -4,9 +4,12 @@ const Twit = require('./tweet.js');
 const logger = require('./logger.js');
 const dinoService = require('./dinosaur.js');
 
-function main() {
-    logger.setLogLevel(config.options.loglevel);
-    logger.info("Booting dinosauria bot...");
+function testCredentials() {
+    let twitterAPI = new Twit(config.twitterKeys);
+    twitterAPI.verifyCredentials();
+}
+
+function tweetDinosaur() {
     let forDinosaur;
     if (config.options.dinosaur) {
         forDinosaur = config.options.dinosaur;
@@ -20,6 +23,15 @@ function main() {
         .then(_ => dinoService.prepareTweet(forDinosaur))
         .then(preparedTweet => twitterAPI.tweet(preparedTweet))
         .finally(() => logger.info("Shutting down dionsauria bot."));
+}
+
+function main() {
+    logger.setLogLevel(config.options.loglevel);
+    logger.info("Booting dinosauria bot...");
+    if (config.options.test)
+        testCredentials();
+    else
+        tweetDinosaur();
 }
 
 main();

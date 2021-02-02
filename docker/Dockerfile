@@ -7,11 +7,13 @@ LABEL description="dinosauria-bot - Node Application"
 
 ENV NODE_ENV=production
 
-COPY /docker/entry.sh /entry.sh
-RUN chmod +x /entry.sh
-
+# Configure the cron jobs.
 COPY /docker/crontab.txt /crontab.txt
 RUN /usr/bin/crontab /crontab.txt
+
+# Set scheduler to run.
+COPY /docker/entry.sh /entry.sh
+RUN chmod +x /entry.sh
 
 CMD ["/entry.sh"]
 

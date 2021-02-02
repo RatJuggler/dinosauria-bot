@@ -12,8 +12,8 @@ nConf.env()
         .options({
             "dinosaur": { alias: "d", describe: "Run for the specified dinosaur", type: "string" },
             "loglevel": { alias: "l", describe: "Set the logging level", choices: ["debug", "info", "error"], default: "info" },
-            "test": { alias: "t", describe: "Test the Twitter access tokens.", type: "boolean" },
-            "quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean" }
+            "quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean" },
+            "test": { alias: "t", describe: "Test the Twitter access tokens.", type: "boolean" }
         }))
     .file({ file: 'app/config.json' });
 

@@ -31,8 +31,8 @@ Options:
   -d, --dinosaur  Run for the specified dinosaur                        [string]
   -l, --loglevel  Set the logging level
                            [choices: "debug", "info", "error"] [default: "info"]
-  -t, --test      Test the Twitter access tokens.                      [boolean]
   -q, --quiet     Run without invoking the Twitter API                 [boolean]
+  -t, --test      Test the Twitter access tokens.                      [boolean]
 ```
 To see it working you can use the `-q` option to run without using the Twitter API but to make it fully functional you will need to 
 set up a Twitter account and apply for access [here](https://developer.twitter.com/en/apply-for-access). You'll then need to make 

@@ -1,5 +1,5 @@
 # Create the dinosauria-bot Node application image.
-FROM node:lts-alpine AS dinosauria-bot
+FROM node:lts-alpine3.11 AS dinosauria-bot
 
 ARG BUILD_TAG=local
 LABEL build_tag=${BUILD_TAG}

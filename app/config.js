@@ -2,33 +2,28 @@
 // The keys can be loaded from environment variables or the command line but are best loaded from a file.
 // They are used to initialise the Twitter API interface.
 
-const nConf = require('nconf');
+require('dotenv').config({path: "dinosauria-bot.env"});
 
-nConf.env()
-    .argv(require('yargs')
-        .help()
-        .version()
-        .usage("Usage: $0 [options]")
-        .options({
-            "dinosaur": { alias: "d", describe: "Run for the specified dinosaur", type: "string" },
-            "loglevel": { alias: "l", describe: "Set the logging level", choices: ["debug", "info", "error"], default: "info" },
-            "quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean" },
-            "test": { alias: "t", describe: "Test the Twitter access tokens.", type: "boolean" }
-        }))
-    .file({ file: 'app/config.json' });
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
 
-const options = {
-    dinosaur: nConf.get("dinosaur"),
-    loglevel: nConf.get("loglevel"),
-    test: nConf.get("test"),
-    quiet: nConf.get("quiet")
-}
+const options = yargs(hideBin(process.argv))
+    .usage("Usage: node $0 [options]")
+    .help()
+    .version()
+    .options({
+        "dinosaur": { alias: "d", describe: "Run for the specified dinosaur", type: "string" },
+        "loglevel": { alias: "l", describe: "Set the logging level", choices: ["debug", "info", "error"], default: "info" },
+        "quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean" },
+        "test": { alias: "t", describe: "Test the Twitter access tokens.", type: "boolean" }
+    })
+    .argv;
 
 const twitterKeys = {
-    consumer_key: nConf.get("TWITTER_CONSUMER_KEY"),
-    consumer_secret: nConf.get("TWITTER_CONSUMER_SECRET"),
-    access_token: nConf.get("TWITTER_ACCESS_TOKEN"),
-    access_token_secret: nConf.get("TWITTER_ACCESS_TOKEN_SECRET")
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token: process.env.TWITTER_ACCESS_TOKEN,
+    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 }
 
 module.exports = { options, twitterKeys };

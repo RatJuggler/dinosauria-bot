@@ -8,5 +8,5 @@ services:
       dockerfile: ./docker/Dockerfile
       target: dinosauria-bot
     env_file:
-      - ./docker/env.list
+      - dinosauria-bot.env
     restart: unless-stopped

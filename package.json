@@ -1,7 +1,7 @@
 {
   "title": "Dinosauria Twitter Bot",
   "name": "dinosauria-bot",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "description": "Twitter bot to tweet a #DinosaurOfTheDay.",
   "keywords": [],

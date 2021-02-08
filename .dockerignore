@@ -1,7 +1,6 @@
 .git
 .idea
 
-docker
 node_modules
 
 **/*.env

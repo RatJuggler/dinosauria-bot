@@ -10,8 +10,11 @@
   "license": "MIT",
   "main": "app/dinosauria-bot.js",
   "scripts": {
+    "brontosaurus": "node app/dinosauria-bot.js -d brontosaurus -q",
+    "help": "node app/dinosauria-bot.js --help",
+    "quiet": "node app/dinosauria-bot.js -q",
     "start": "node app/dinosauria-bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node app/dinosauria-bot.js -t"
   },
   "repository": {
     "type": "git",

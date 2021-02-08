@@ -19,7 +19,9 @@ Then install the packages required:
 
     $ npm install
 
-You can then run the bot with `node app/dinosauria-bot.js` or just `npm start`.
+You can then run the bot with `node app/dinosauria-bot.js`.
+
+The full list of options is as follows:
 ```
 $ node app/dinosauria-bot.js --help
 
@@ -51,6 +53,14 @@ The edited file should then look something like this (not real tokens):
 The bot will always look for this file in the current working directory. Test that your tokens are working by using:
 
     $ node app/dinosauria-bot.js --test
+
+There is also a list of pre-defined `npm` scripts you can use:
+
+- start: Run the bot as normal.
+- help:  Run the bot showing the help options.
+- test:  Run the bot to test Twitter API access.
+- quiet: Run the bot in quiet mode.
+- brontosaurus: Run the bot for this dinosaur.
 
 As the bot is really only meant to tweet once a day it will send a tweet and then immediately exit. I'm running it daily with a 
 Cron job so that it's not sat there idling for the rest of the time.

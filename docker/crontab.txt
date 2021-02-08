@@ -1,1 +1,1 @@
-0 9 * * *   cd /dinosauria-bot && node ./app/dinosauria-bot.js >> /dinosauria-bot/tweet.log 2>&1
+0 9 * * *   node /dinosauria-bot/app/dinosauria-bot.js

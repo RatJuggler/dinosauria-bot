@@ -1,7 +1,7 @@
 {
   "title": "Dinosauria Twitter Bot",
   "name": "dinosauria-bot",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "private": true,
   "description": "Twitter bot to tweet a #DinosaurOfTheDay.",
   "keywords": [],
@@ -10,8 +10,11 @@
   "license": "MIT",
   "main": "app/dinosauria-bot.js",
   "scripts": {
+    "brontosaurus": "node app/dinosauria-bot.js -d brontosaurus -q",
+    "help": "node app/dinosauria-bot.js --help",
+    "quiet": "node app/dinosauria-bot.js -q",
     "start": "node app/dinosauria-bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node app/dinosauria-bot.js -t"
   },
   "repository": {
     "type": "git",
@@ -22,9 +25,10 @@
   },
   "dependencies": {
     "dinosaurs": "^1.2.1",
-    "nconf": "^0.11.1",
+    "dotenv": "^8.2.0",
     "twit": "^2.2.11",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "yargs": "^16.2.0"
   },
   "engines": {
     "node": ">=8.0.0"

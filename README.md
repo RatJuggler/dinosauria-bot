@@ -11,19 +11,21 @@ hodgepodge of regex.
 ## Install / Run
 
 Assuming you already have Node.js/npm installed you can check out the source code from here:
-```
-$ git clone https://github.com/RatJuggler/dinosauria-bot.git
-$ cd dinosauria-bot
-```
+
+    $ git clone https://github.com/RatJuggler/dinosauria-bot.git
+    $ cd dinosauria-bot
+
 Then install the packages required:
-```
-$ npm install
-```
-You can then run the bot with `node app/dinosauria-bot.js` or just `npm start`.
+
+    $ npm install
+
+You can then run the bot with `node app/dinosauria-bot.js`.
+
+The full list of options is as follows:
 ```
 $ node app/dinosauria-bot.js --help
 
-Usage: dinosauria-bot.js [options]
+Usage: node dinosauria-bot.js [options]
 
 Options:
       --help      Show help                                            [boolean]
@@ -35,31 +37,30 @@ Options:
   -t, --test      Test the Twitter access tokens.                      [boolean]
 ```
 To see it working you can use the `-q` option to run without using the Twitter API but to make it fully functional you will need to 
-set up a Twitter account and apply for access [here](https://developer.twitter.com/en/apply-for-access). You'll then need to make 
-the following tokens available to run it:
+set up a Twitter account and apply for access [here](https://developer.twitter.com/en/apply-for-access). The access tokens created 
+for the account then need to be made available as environment variables for the bot to find. The easiest way to do this is to 
+create a `dinosauria-bot.env` file from the supplied template, then edit the file and copy in your tokens.
 
-    TWITTER_CONSUMER_KEY
-    TWITTER_CONSUMER_SECRET
-    TWITTER_ACCESS_TOKEN
-    TWITTER_ACCESS_TOKEN_SECRET
+    $ cp dinosauria-bot.env.template dinosauria-bot.env
 
-I've used [nconf](https://www.npmjs.com/package/nconf) so that you can configure the access tokens using environment variables, or
-a configuration file. To use the configuration file copy the template:
+The edited file should then look something like this (not real tokens):
 
-    $ cp app/config.json.template app/config.json
+    TWITTER_CONSUMER_KEY="123abc456cde789fgh012ijkl"
+    TWITTER_CONSUMER_SECRET="456cde789fgh012ijkl123abc456cde789fgh012ijkl123abc"
+    TWITTER_ACCESS_TOKEN="789fgh012ijkl123abc456cde789fgh012ijkl123abc456cde"
+    TWITTER_ACCESS_TOKEN_SECRET="c456cde789fgh012ijkl123abc456cde789fgh012ijkl"
 
-Edit the new file and add your tokens:
-
-    {
-      "TWITTER_CONSUMER_KEY": "<your consumer key here>",
-      "TWITTER_CONSUMER_SECRET": "<your consumer secret here>",
-      "TWITTER_ACCESS_TOKEN": "<your access token here>",
-      "TWITTER_ACCESS_TOKEN_SECRET": "<your access token secret here>"
-    }
-
-Test that your tokens are working by using:
+The bot will always look for this file in the current working directory. Test that your tokens are working by using:
 
     $ node app/dinosauria-bot.js --test
+
+There is also a list of pre-defined `npm` scripts you can use:
+
+- start: Run the bot as normal.
+- help:  Run the bot showing the help options.
+- test:  Run the bot to test Twitter API access.
+- quiet: Run the bot in quiet mode.
+- brontosaurus: Run the bot for this dinosaur.
 
 As the bot is really only meant to tweet once a day it will send a tweet and then immediately exit. I'm running it daily with a 
 Cron job so that it's not sat there idling for the rest of the time.
@@ -68,29 +69,16 @@ Cron job so that it's not sat there idling for the rest of the time.
 
 Docker build and compose files are available which create a standalone image to run the bot once a day.
 
-Create the image with: `docker build -f docker/Dockerfile -t dinosauria-bot:local .`
+Create the image with: 
+
+    $ docker build -f docker/Dockerfile -t dinosauria-bot:local .
 
 We need to be careful that any Twitter access tokens aren't included in the image in case it is pushed to a public repository (and
-it's also just best practice). There are a number of ways to inject the tokens into the image but probably the easiest is to create 
-an `env.list` file from the supplied template, set the tokens in it and then run the image with the `--env-file` option.
+it's also just best practice). There are a number of ways to inject the tokens into the image but probably the easiest is to create
+a `dinosauria-bot.env` file as described above and then run the image with the `--env-file` option.
 
-    docker run dinosauria-bot:local -d --env-file ./docker/env.list
+    $ docker run dinosauria-bot:local -d --env-file dinosauria-bot.env
 
 Or just use the compose file to do everything:
 
-    docker-compose up -d
-
-## Addendum
-
-With npm it's easy to start pulling in packages left, right and centre and soon build up a huge list of dependencies, so I've tried 
-not to do that. Instead, I've only pulled in packages for major infrastructure components that are essential (like the Twitter API) 
-or that I want to try out as I think they are useful (`nconf` and `winston`). For other things I've tried to stick with simple 
-functions which implement the bare minimum of what the application needs. This also helps with learning as I'm forced to write my 
-own code.
-
-Packages I chose not to use:
-
-- `random`
-- `request` / `got`
-- `url-exists`
-- `wtf-wikipedia`
+    $ docker-compose up -d

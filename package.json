@@ -1,7 +1,7 @@
 {
   "title": "Dinosauria Twitter Bot",
   "name": "dinosauria-bot",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "private": true,
   "description": "Twitter bot to tweet a #DinosaurOfTheDay.",
   "keywords": [],
@@ -31,6 +31,7 @@
     "yargs": "^16.2.0"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=14.0.0",
+    "npm": ">=7.0.0"
   }
 }

@@ -54,7 +54,7 @@ The bot will always look for this file in the current working directory. Test th
 
     $ node app/dinosauria-bot.js --test
 
-There is also a list of pre-defined `npm` scripts you can use:
+There are also some pre-defined `npm` scripts you can use:
 
 - start: Run the bot as normal.
 - help:  Run the bot showing the help options.
@@ -82,3 +82,5 @@ a `dinosauria-bot.env` file as described above and then run the image with the `
 Or just use the compose file to do everything:
 
     $ docker-compose up -d
+
+Environment variables can be used to configure image tagging (see the file).

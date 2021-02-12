@@ -21,8 +21,8 @@ CMD ["/entry.sh"]
 WORKDIR /dinosauria-bot
 
 # Install the runtime dependencies.
-COPY package.json .
-RUN npm install
+COPY package*.json ./
+RUN npm ci
 
 # Copy the application files.
 COPY /app ./app

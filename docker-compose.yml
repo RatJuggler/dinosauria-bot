@@ -6,7 +6,7 @@ x-args: &args
 
 services:
   dinosauria-bot:
-    image: ${DOCKER_REGISTRY}${DOCKER_ID}dinosauria-bot:${IMAGE_TAG:-latest}
+    image: ${REGISTRY}${REPOSITORY}dinosauria-bot:${IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: ./docker/Dockerfile

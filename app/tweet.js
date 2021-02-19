@@ -13,8 +13,9 @@ BaseTwit.prototype.verifyCredentials = function () {
             logger.info("Twitter credentials verified.");
         })
         .catch((error) => {
+            logger.error("Unable to verify Twitter credentials!");
             logger.error(error.code + ' : ' + error.message);
-            throw new Error("Unable to verify Twitter credentials!");
+            process.exit(1);
         });
 }
 

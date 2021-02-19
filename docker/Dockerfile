@@ -16,6 +16,7 @@ COPY /docker/entry.sh /entry.sh
 RUN chmod +x /entry.sh
 
 CMD ["/entry.sh"]
+HEALTHCHECK --interval=6h --timeout=30s --start-period=60s --retries=3 CMD ["node", "app/dinosauria-bot", "-t", "||", "exit 1"]
 
 # Create a folder to serve the application from.
 WORKDIR /dinosauria-bot

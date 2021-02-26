@@ -4,6 +4,8 @@ const Twit = require('./tweet.js');
 const logger = require('./logger.js');
 const dinoService = require('./dinosaur.js');
 
+const client = require('prom-client');
+
 function testCredentials() {
     let twitterAPI = new Twit(config.twitterKeys);
     twitterAPI.verifyCredentials();
@@ -22,6 +24,10 @@ function tweetDinosaur() {
     twitterAPI.verifyCredentials()
         .then(_ => dinoService.prepareTweet(forDinosaur))
         .then(preparedTweet => twitterAPI.tweet(preparedTweet))
+        .then(_ => {
+            logger.info("Pushing metrics to: " + config.options.metrics);
+            let gateway = new client.Pushgateway(config.options.metrics);
+        })
         .finally(() => logger.info("Shutting down dionsauria bot."));
 }
 

@@ -27,6 +27,7 @@ function tweetDinosaur() {
         .then(_ => {
             logger.info("Pushing metrics to: " + config.options.metrics);
             let gateway = new client.Pushgateway(config.options.metrics);
+            gateway.pushAdd({ jobName: 'dinosauria-bot' }, function (err, resp, body) {});
         })
         .finally(() => logger.info("Shutting down dionsauria bot."));
 }

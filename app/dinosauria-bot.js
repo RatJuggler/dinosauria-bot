@@ -7,7 +7,7 @@ const dinoService = require('./dinosaur.js');
 const client = require('prom-client');
 
 function testCredentials() {
-    let twitterAPI = new Twit(config.twitterKeys);
+    const twitterAPI = new Twit(config.twitterKeys);
     twitterAPI.verifyCredentials();
 }
 
@@ -20,7 +20,7 @@ function tweetDinosaur() {
         forDinosaur = dinoService.getRandomName();
         logger.info("Selected random name: " + forDinosaur);
     }
-    let twitterAPI = config.options.quiet ? new NoTwit() : new Twit(config.twitterKeys);
+    const twitterAPI = config.options.quiet ? new NoTwit() : new Twit(config.twitterKeys);
     twitterAPI.verifyCredentials()
         .then(_ => dinoService.prepareTweet(forDinosaur))
         .then(preparedTweet => twitterAPI.tweet(preparedTweet))

@@ -33,6 +33,7 @@ Options:
   -d, --dinosaur  Run for the specified dinosaur                        [string]
   -l, --loglevel  Set the logging level
                            [choices: "debug", "info", "error"] [default: "info"]
+  -m, --metrics   Push metrics to this URL                              [string]
   -q, --quiet     Run without invoking the Twitter API                 [boolean]
   -t, --test      Test the Twitter access tokens.                      [boolean]
 ```
@@ -57,13 +58,14 @@ The bot will always look for this file in the current working directory. Test th
 There are also some pre-defined `npm` scripts you can use:
 
 - start: Run the bot as normal.
-- help:  Run the bot showing the help options.
-- test:  Run the bot to test Twitter API access.
+- help: Run the bot showing the help options.
+- metrics: Run the bot to test the push metrics.
+- test: Run the bot to test Twitter API access.
 - quiet: Run the bot in quiet mode.
 - brontosaurus: Run the bot for this dinosaur.
 
 As the bot is really only meant to tweet once a day it will send a tweet and then immediately exit. I'm running it daily with a 
-Cron job so that it's not sat there idling for the rest of the time.
+Cron job so that it's not sat there idling for the rest of the time using the push metrics option to record its activity.
 
 ## Docker
 

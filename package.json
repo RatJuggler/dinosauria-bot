@@ -13,6 +13,7 @@
     "brontosaurus": "node app/dinosauria-bot.js -d brontosaurus -q",
     "help": "node app/dinosauria-bot.js --help",
     "quiet": "node app/dinosauria-bot.js -q",
+    "metrics": "node app/dinosauria-bot.js -m http://localhost:9091 -q",
     "start": "node app/dinosauria-bot.js",
     "test": "node app/dinosauria-bot.js -t"
   },
@@ -26,6 +27,7 @@
   "dependencies": {
     "dinosaurs": "^1.2.1",
     "dotenv": "^8.2.0",
+    "prom-client": "^13.1.0",
     "twit": "^2.2.11",
     "winston": "^3.3.3",
     "yargs": "^16.2.0"

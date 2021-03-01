@@ -4,12 +4,15 @@ const Twit = require('./tweet.js');
 const logger = require('./logger.js');
 const dinoService = require('./dinosaur.js');
 
+const client = require('prom-client');
+
 function testCredentials() {
-    let twitterAPI = new Twit(config.twitterKeys);
+    const twitterAPI = new Twit(config.twitterKeys);
     twitterAPI.verifyCredentials();
 }
 
 function tweetDinosaur() {
+    client.collectDefaultMetrics();
     let forDinosaur;
     if (config.options.dinosaur) {
         forDinosaur = config.options.dinosaur;
@@ -18,10 +21,17 @@ function tweetDinosaur() {
         forDinosaur = dinoService.getRandomName();
         logger.info("Selected random name: " + forDinosaur);
     }
-    let twitterAPI = config.options.quiet ? new NoTwit() : new Twit(config.twitterKeys);
+    const twitterAPI = config.options.quiet ? new NoTwit() : new Twit(config.twitterKeys);
     twitterAPI.verifyCredentials()
         .then(_ => dinoService.prepareTweet(forDinosaur))
         .then(preparedTweet => twitterAPI.tweet(preparedTweet))
+        .then(_ => {
+            if (config.options.metrics) {
+                logger.info("Pushing metrics to: " + config.options.metrics);
+                let gateway = new client.Pushgateway(config.options.metrics);
+                gateway.pushAdd({jobName: 'dinosauria-bot'}, function (err, resp, body) {});
+            }
+        })
         .finally(() => logger.info("Shutting down dionsauria bot."));
 }
 

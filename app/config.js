@@ -2,6 +2,7 @@
 // The keys can be loaded from environment variables or the command line but are best loaded from a file.
 // They are used to initialise the Twitter API interface.
 
+const { URL } = require('url');
 require('dotenv').config({path: "dinosauria-bot.env"});
 
 const yargs = require('yargs/yargs')
@@ -12,10 +13,21 @@ const options = yargs(hideBin(process.argv))
     .help()
     .version()
     .options({
-        "dinosaur": { alias: "d", describe: "Run for the specified dinosaur", type: "string" },
-        "loglevel": { alias: "l", describe: "Set the logging level", choices: ["debug", "info", "error"], default: "info" },
-        "quiet": { alias: "q", describe: "Run without invoking the Twitter API", type: "boolean" },
-        "test": { alias: "t", describe: "Test the Twitter access tokens.", type: "boolean" }
+        "dinosaur": { alias: 'd', describe: "Run for the specified dinosaur", type: "string" },
+        "loglevel": { alias: 'l', describe: "Set the logging level", choices: ["debug", "info", "error"], default: "info" },
+        "metrics": { alias: 'm', describe: "Push metrics to this URL", type: "string" },
+        "quiet": { alias: 'q', describe: "Run without invoking the Twitter API", type: "boolean" },
+        "test": { alias: 't', describe: "Test the Twitter access tokens.", type: "boolean" }
+    })
+    .check((argv) => {
+        if (argv.m) {
+            try {
+                new URL(argv.m);
+            } catch (err) {
+                throw new Error("Metrics URL format not recognised!");
+            }
+        }
+        return true;
     })
     .argv;
 

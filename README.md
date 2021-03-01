@@ -69,7 +69,10 @@ Cron job so that it's not sat there idling for the rest of the time using the pu
 
 ## Docker
 
-Docker build and compose files are available which create a standalone image to run the bot once a day.
+Docker build and compose files are available which create a standalone image to run the bot once a day using the push metrics 
+option to record its activity.
+
+Edit the *docker/crontab.txt* file to set your preferred timings and change the options used.
 
 Create the image with: 
 

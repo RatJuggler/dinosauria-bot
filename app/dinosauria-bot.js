@@ -12,6 +12,7 @@ function testCredentials() {
 }
 
 function tweetDinosaur() {
+    client.collectDefaultMetrics();
     let forDinosaur;
     if (config.options.dinosaur) {
         forDinosaur = config.options.dinosaur;
@@ -25,9 +26,11 @@ function tweetDinosaur() {
         .then(_ => dinoService.prepareTweet(forDinosaur))
         .then(preparedTweet => twitterAPI.tweet(preparedTweet))
         .then(_ => {
-            logger.info("Pushing metrics to: " + config.options.metrics);
-            let gateway = new client.Pushgateway(config.options.metrics);
-            gateway.pushAdd({ jobName: 'dinosauria-bot' }, function (err, resp, body) {});
+            if (config.options.metrics) {
+                logger.info("Pushing metrics to: " + config.options.metrics);
+                let gateway = new client.Pushgateway(config.options.metrics);
+                gateway.pushAdd({jobName: 'dinosauria-bot'}, function (err, resp, body) {});
+            }
         })
         .finally(() => logger.info("Shutting down dionsauria bot."));
 }
